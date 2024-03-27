@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res } from '@nestjs/common';
+import { Controller, Get, Req, Res, HttpRedirectResponse } from '@nestjs/common';
 import { OAuth2Service } from '@acme/server';
 import { OAuth2Providers } from './OAuth2Providers.js';
 import { UserCustomer } from '@acme/core';
@@ -83,6 +83,12 @@ export class AuthController {
       )
 
       const session = await lucia.createSession(userId, {});
+      // TODO: look into? https://docs.nestjs.com/controllers#redirection
+      // const redirect: HttpRedirectResponse = {
+      //   url: ServerEnv.Origin.Web,
+      //   statusCode: 301,
+      // }
+      
       return response
         .appendHeader("Set-Cookie", lucia.createSessionCookie(session.id).serialize())
         .redirect(ServerEnv.Origin.Web);
