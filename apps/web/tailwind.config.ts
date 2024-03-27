@@ -12,26 +12,26 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      daisyui: {
-        themes: [
-          {
-            mytheme: {
-              "primary": "#be123c",
-              "secondary": "#155e75",
-              "accent": "#155e75",
-              "neutral": "#100e01",
-              "base-100": "#fffbed",
-              "info": "#0369a1",
-              "success": "#0f766e",
-              "warning": "#facc15",
-              "error": "#e11d48",
-            },
-          },
-        ],
-      },
     },
   },
   plugins: [daisyui],
+  daisyui: {
+    themes: [
+      {
+        standard: {
+          "primary": "#be123c",
+          "secondary": "#155e75",
+          "accent": "#155e75",
+          "neutral": "#100e01",
+          "base-100": "#fffbed",
+          "info": "#0369a1",
+          "success": "#0f766e",
+          "warning": "#facc15",
+          "error": "#e11d48",
+        },
+      },
+    ],
+  },
 }
 
 export default config
