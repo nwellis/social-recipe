@@ -30,8 +30,8 @@ const config: Config = {
         ],
       },
     },
-    plugins: [daisyui],
-  }
+  },
+  plugins: [daisyui],
 }
 
 export default config
