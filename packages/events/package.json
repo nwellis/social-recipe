@@ -1,0 +1,35 @@
+{
+  "name": "@acme/events",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc -w",
+    "lint": "eslint \"src/**/*.ts*\" --max-warnings 0"
+  },
+  "devDependencies": {
+    "@acme/eslint-config": "*",
+    "@acme/typescript-config": "*",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  },
+  "dependencies": {
+    "@acme/core": "*",
+    "@acme/logger": "*",
+    "@acme/server-env": "*",
+    "@acme/util": "*",
+    "kafkajs": "^2.2.4",
+    "mem": "^10.0.0",
+    "p-memoize": "^7.1.1",
+    "p-retry": "^6.2.0",
+    "ts-essentials": "^9.4.1"
+  }
+}

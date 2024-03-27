@@ -1,0 +1,13 @@
+{
+  "name": "css-config",
+  "compilerOptions": {
+    "noImplicitAny": false
+  },
+  "include": [
+    "*.ts",
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

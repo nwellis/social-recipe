@@ -1,0 +1,12 @@
+{
+  "name": "@acme/typescript-config",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "astro": "^4.3.5"
+  }
+}

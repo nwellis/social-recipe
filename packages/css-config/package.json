@@ -1,0 +1,11 @@
+{
+  "name": "@acme/css-config",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "tailwind.config.js"
+  ],
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
