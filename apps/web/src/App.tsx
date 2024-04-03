@@ -1,22 +1,36 @@
-import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { routeTree } from './routeTree.gen'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import './index.css'
 
-function App() {
+const queryClient = new QueryClient()
 
-  return (
-    <div className='h-full grid grid-rows-header-footer'>
-      <header>
-      <h1 className='text-xl text-primary font-bold'>Website</h1>
-      </header>
-      <div className='container flex flex-col justify-center items-center'>
-      <p>Content</p>
-      <button className='btn btn-accent'>
-        Hello DaisyUI
-      </button>
+// Set up a Router instance
+const router = createRouter({
+  routeTree,
+  context: {
+    queryClient,
+  },
+  defaultPreload: 'intent',
+  // Since we're using React Query, we don't want loader calls to ever be stale
+  // This will ensure that the loader is always called when the route is preloaded or visited
+  defaultPreloadStaleTime: 0,
+})
 
-      </div>
-      <footer>Footer</footer>
-    </div>
-  )
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
 }
 
-export default App
+const rootElement = document.getElementById('app')!
+
+if (!rootElement.innerHTML) {
+  const root = ReactDOM.createRoot(rootElement)
+  root.render(
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>,
+  )
+}

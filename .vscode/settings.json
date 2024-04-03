@@ -10,5 +10,8 @@
   },
   "[css][scss][less]": {
     "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
   }
 }
