@@ -1,7 +1,6 @@
 import { DatabaseEntityStore, OAuthAccount } from "@acme/core";
 import mem from "mem";
 import { OAuthAccountCustomerStore } from "../../store/OAuthAccountCustomerStore.js";
-import { generateId } from "lucia";
 
 export class OAuth2Service {
 
@@ -25,7 +24,7 @@ export class OAuth2Service {
     account: Pick<OAuthAccount, "providerId" | "providerUserId">
   ) {
     const oAuthId = `${account.providerId}:${userId}`;
-    await this.account.set(`${account.providerId}:${userId}`, {
+    await this.account.set(oAuthId, {
       _id: oAuthId,
       userId: userId,
       ...account,
