@@ -1,7 +1,6 @@
 import { Controller, Get, Req, Res, HttpRedirectResponse } from '@nestjs/common';
-import { OAuth2Service } from '@acme/server';
+import { OAuth2Service, UserCustomerService } from '@acme/server';
 import { OAuth2Providers } from './OAuth2Providers.js';
-import { UserCustomer } from '@acme/core';
 import { OAuth2RequestError, generateState } from 'arctic';
 import { parseCookies, serializeCookie } from 'oslo/cookie';
 import { ServerEnv } from '@acme/server-env';
@@ -12,7 +11,8 @@ import { lucia } from '../../lib/Lucia.js';
 export class AuthController {
   constructor(
     private readonly providers: OAuth2Providers,
-    private readonly oauthService: OAuth2Service<UserCustomer>,
+    private readonly userService: UserCustomerService,
+    private readonly oauthService: OAuth2Service,
   ) { }
 
   @Get("/github")
@@ -60,30 +60,26 @@ export class AuthController {
       });
 
       const githubUser = await githubUserResponse.json() as { id: string, login: string, email: string };
-      const exitingUser = await this.oauthService.getUser({ providerId: "GitHub", providerUserId: githubUser.id });
-      if (exitingUser) {
-        const session = await lucia.createSession(exitingUser._id, {});
+      const existing = await this.oauthService.getOAuthAccount({ providerId: "GitHub", providerUserId: githubUser.id });
+      if (existing) {
+        const session = await lucia.createSession(existing.userId, {});
         return response
           .appendHeader("Set-Cookie", lucia.createSessionCookie(session.id).serialize())
           .redirect(ServerEnv.Origin.Web);
       }
 
-      const userId = this.oauthService.createUserId();
-      await this.oauthService.createUser(
-        {
-          _id: userId,
-          __version: 1,
-          __schema: 1,
-          email: githubUser.email,
-          emailVerified: Boolean(githubUser.email),
-        },
-        {
-          providerId: "GitHub",
-          providerUserId: githubUser.id
-        }
-      )
+      const user = await this.userService.createUser({
+        __version: 1,
+        __schema: 1,
+        email: githubUser.email,
+        emailVerified: Boolean(githubUser.email),
+      })
+      await this.oauthService.createOAuthAccount(user._id, {
+        providerId: "GitHub",
+        providerUserId: githubUser.id
+      })
 
-      const session = await lucia.createSession(userId, {});
+      const session = await lucia.createSession(user._id, {});
       // TODO: look into? https://docs.nestjs.com/controllers#redirection
       // const redirect: HttpRedirectResponse = {
       //   url: ServerEnv.Origin.Web,

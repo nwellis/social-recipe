@@ -1,42 +1,33 @@
-import { DatabaseEntityStore, OAuthAccount, User } from "@acme/core";
+import { DatabaseEntityStore, OAuthAccount } from "@acme/core";
 import mem from "mem";
-import { UserCustomerStore } from "../../store/UserCustomerStore.js";
 import { OAuthAccountCustomerStore } from "../../store/OAuthAccountCustomerStore.js";
 import { generateId } from "lucia";
 
-export class OAuth2Service<U extends User> {
+export class OAuth2Service {
 
-  static CustomerInstance = mem(() => new OAuth2Service(UserCustomerStore, OAuthAccountCustomerStore))
+  static CustomerInstance = mem(() => new OAuth2Service(OAuthAccountCustomerStore))
 
   constructor(
-    protected readonly user: DatabaseEntityStore<U>,
     protected readonly account: DatabaseEntityStore<OAuthAccount>,
   ) { }
 
-  createUserId() {
-    return generateId(15);
-  }
-
-  async getUser(account: Pick<OAuthAccount, "providerId" | "providerUserId">) {
+  async getOAuthAccount(account: Pick<OAuthAccount, "providerId" | "providerUserId">) {
     const results = await this.account.search({
       providerId: account.providerId,
       providerUserId: account.providerUserId,
     });
-    if (results.entities.length === 0) return;
 
-    return this.user.findOne(results.entities[0].userId);
+    return results.entities[0];
   }
 
-  async createUser(
-    payload: U,
+  async createOAuthAccount(
+    userId: string,
     account: Pick<OAuthAccount, "providerId" | "providerUserId">
   ) {
-    await this.user.set(payload._id, payload);
-
-    const oAuthId = `${account.providerId}:${payload._id}`;
-    await this.account.set(`${account.providerId}:${payload._id}`, {
+    const oAuthId = `${account.providerId}:${userId}`;
+    await this.account.set(`${account.providerId}:${userId}`, {
       _id: oAuthId,
-      userId: payload._id,
+      userId: userId,
       ...account,
     })
   }

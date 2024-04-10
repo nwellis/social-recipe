@@ -1,10 +1,11 @@
-import { DatabaseEntityStore, OAuthAccount, UserCustomer } from "@acme/core";
-import { OAuth2Service, UserCustomerStore } from "@acme/server";
+import { DatabaseEntityStore, OAuthAccount, Organization, UserCustomer } from "@acme/core";
+import { OAuth2Service, UserCustomerService, UserCustomerStore, OrganizationStore } from "@acme/server";
 import { Module } from "@nestjs/common";
 
 
 @Module({
     providers: [
+        UserCustomerService,
         OAuth2Service,
         {
             provide: DatabaseEntityStore<OAuthAccount>,
@@ -14,6 +15,10 @@ import { Module } from "@nestjs/common";
             provide: DatabaseEntityStore<UserCustomer>,
             useValue: UserCustomerStore,
         },
+        {
+            provide: DatabaseEntityStore<Organization>,
+            useValue: OrganizationStore,
+        },
     ]
 })
-export class AuthModule {}
+export class AuthModule { }
