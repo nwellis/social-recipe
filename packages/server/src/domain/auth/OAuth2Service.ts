@@ -6,7 +6,7 @@ import { generateId } from "lucia";
 
 export class OAuth2Service<U extends User> {
 
-  static getForCustomer = mem(() => new OAuth2Service(UserCustomerStore, OAuthAccountCustomerStore))
+  static CustomerInstance = mem(() => new OAuth2Service(UserCustomerStore, OAuthAccountCustomerStore))
 
   constructor(
     protected readonly user: DatabaseEntityStore<U>,
@@ -40,5 +40,4 @@ export class OAuth2Service<U extends User> {
       ...account,
     })
   }
-
 }

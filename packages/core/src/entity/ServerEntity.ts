@@ -5,4 +5,5 @@ export interface ServerEntity {
 export interface ServerEntityVersioned {
   _id: string
   __version: number
+  __schema: number
 }

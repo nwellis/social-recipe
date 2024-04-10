@@ -13,7 +13,7 @@ export class AuthController {
   constructor(
     private readonly providers: OAuth2Providers,
     private readonly oauthService: OAuth2Service<UserCustomer>,
-  ) {}
+  ) { }
 
   @Get("/github")
   async getGitHubAuth(
@@ -73,6 +73,7 @@ export class AuthController {
         {
           _id: userId,
           __version: 1,
+          __schema: 1,
           email: githubUser.email,
           emailVerified: Boolean(githubUser.email),
         },
@@ -88,7 +89,7 @@ export class AuthController {
       //   url: ServerEnv.Origin.Web,
       //   statusCode: 301,
       // }
-      
+
       return response
         .appendHeader("Set-Cookie", lucia.createSessionCookie(session.id).serialize())
         .redirect(ServerEnv.Origin.Web);
