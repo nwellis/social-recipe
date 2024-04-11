@@ -14,7 +14,9 @@ function Login() {
           <h2 className="card-title">Login</h2>
           <p>Login with one of the following</p>
           <div className="card-actions justify-center">
-            <button className="btn btn-primary btn-wide">Login</button>
+            <button className="btn btn-primary btn-wide">
+              Login with GitHub
+            </button>
           </div>
         </div>
       </div>

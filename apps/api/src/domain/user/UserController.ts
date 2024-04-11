@@ -8,7 +8,7 @@ import { AuthGuard } from '../../guard/AuthGuard.js';
 export class UserController {
   constructor(
     private readonly userService: UserCustomerService
-  ) {}
+  ) { }
 
   @Get()
   findCurrent(
