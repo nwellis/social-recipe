@@ -30,11 +30,11 @@ export const ensureMongoCollection = pMemoize(
     const indexes = await collection.listIndexes().toArray();
     const descriptions = options.indexes.filter(next => indexes.every(({ name }) => name !== next.name))
     for (const desc of descriptions) {
-      const { key: indexKey, ...more } = desc
-      Logger.info(`102|CreateMongoIndex|key#${key}|collection#${options.name}|index#${more.name}|unique#${more.unique ?? false}`)
+      const { key: indexKey, ...rest } = desc
+      Logger.info(`102|CreateMongoIndex|key#${key}|collection#${options.name}|index#${rest.name}|unique#${rest.unique ?? false}`)
       await collection.createIndex(indexKey, {
-        name: more.name,
-        unique: more.unique
+        name: rest.name,
+        unique: Boolean(rest.unique),
       })
     }
   }
