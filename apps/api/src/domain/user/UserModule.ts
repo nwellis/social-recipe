@@ -1,9 +1,11 @@
 import { DatabaseEntityStore, UserCustomer } from "@acme/core";
 import { UserCustomerService, UserCustomerStore } from "@acme/server";
 import { Module } from "@nestjs/common";
+import { UserController } from "./UserController.js";
 
 
 @Module({
+    controllers: [UserController],
     providers: [
         UserCustomerService,
         {
@@ -12,4 +14,4 @@ import { Module } from "@nestjs/common";
         },
     ]
 })
-export class UserModule {}
+export class UserModule { }

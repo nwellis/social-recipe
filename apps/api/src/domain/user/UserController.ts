@@ -2,12 +2,13 @@ import { Controller, UseGuards, Get, Req, Param } from '@nestjs/common';
 import { UserCustomerService } from '@acme/server';
 import type { Request } from '../../Framework.js'
 import { AuthGuard } from '../../guard/AuthGuard.js';
+import { DatabaseEntityStore, UserCustomer } from '@acme/core';
 
 @Controller('user')
 @UseGuards(AuthGuard)
 export class UserController {
   constructor(
-    private readonly userService: UserCustomerService
+    private readonly userService: UserCustomerService,
   ) { }
 
   @Get()

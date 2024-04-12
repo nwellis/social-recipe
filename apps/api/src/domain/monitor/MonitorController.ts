@@ -5,9 +5,6 @@ export class MonitorController {
   constructor() { }
 
   @Get('health')
-  // @HttpCode(204)
-  health(): string {
-    console.log(`RECIEVED`)
-    return 'OK'
-  }
+  @HttpCode(204)
+  health() { }
 }

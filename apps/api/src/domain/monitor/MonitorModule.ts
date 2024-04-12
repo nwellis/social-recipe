@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
+import { MonitorController } from "./MonitorController.js";
 
 @Module({
-    providers: []
+    controllers: [MonitorController]
 })
-export class UserModule { }
+export class MonitorModule { }
