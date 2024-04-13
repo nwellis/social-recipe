@@ -1,6 +1,8 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { isAuthedOrRedirect } from 'lib/Auth'
 
 export const Route = createFileRoute('/(user)/account/_layout')({
+  beforeLoad: isAuthedOrRedirect,
   component: LayoutComponent,
 })
 
