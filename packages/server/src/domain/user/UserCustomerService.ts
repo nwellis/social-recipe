@@ -1,16 +1,16 @@
-import { DatabaseEntityStore, Organization, ServerEntityManaged, UserCustomer } from "@acme/core";
+import { DatabaseEntityStore, ServerEntityManaged, UserCustomer } from "@acme/core";
 import mem from "mem";
 import { UserCustomerStore } from "../../store/UserCustomerStore.js";
-import { OrganizationStore } from "../../store/OrganizationStore.js";
 import { generateId } from "lucia";
+import { OrganizationService } from "../org/OrganizationService.js";
 
 export class UserCustomerService {
 
-  static Instance = mem(() => new UserCustomerService(UserCustomerStore, OrganizationStore))
+  static Instance = mem(() => new UserCustomerService(UserCustomerStore, OrganizationService.Instance()))
 
   constructor(
     protected readonly user: DatabaseEntityStore<UserCustomer>,
-    protected readonly organization: DatabaseEntityStore<Organization>,
+    protected readonly organization: OrganizationService,
   ) { }
 
   createUserId() {
@@ -37,11 +37,8 @@ export class UserCustomerService {
   }
 
   async initialUserSetup(user: UserCustomer) {
-    await this.organization.set(user._id, {
-      _id: user._id,
-      __schema: 1,
-      __version: 1,
-      createdAt: Date.now(),
+    await this.organization.createOrg({
+      userId: user._id,
     })
   }
 }
