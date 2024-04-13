@@ -5,7 +5,7 @@ import { joinPaths } from '@acme/util';
 export const ApiClient = createTRPCClient<AppRouter>({
   links: [
     httpBatchLink({
-      url: joinPaths(import.meta.env.PUBLIC_API_URL, "/trpc/v1"),
+      url: joinPaths(import.meta.env.VITE_API_URL, "/trpc/v1"),
       fetch(url, options) {
         return fetch(url, {
           ...options,
