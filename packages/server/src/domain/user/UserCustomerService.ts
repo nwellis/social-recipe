@@ -18,7 +18,7 @@ export class UserCustomerService {
   }
 
   async getUser(id: string) {
-    return this.user.findOne(id, { hashedPassword: 0, __version: 0 });
+    return this.user.findOne(id, { hashedPassword: 0, __version: 0, __schema: 0 });
   }
 
   async createUser(payload: Omit<UserCustomer, "_id">) {

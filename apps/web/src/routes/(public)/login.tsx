@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { gitHubOAuthUrl } from '../../lib/api/AuthApi'
+import { joinPaths } from '@acme/util'
+
+const gitHubAuthUrl = joinPaths(import.meta.env.VITE_API_URL, 'api/v1/auth/github')
 
 export const Route = createFileRoute('/(public)/login')({
   component: Login
@@ -15,7 +17,7 @@ function Login() {
           <h2 className="card-title">Login</h2>
           <p>Login with one of the following</p>
           <div className="card-actions justify-center">
-            <a href={gitHubOAuthUrl} className="btn btn-wide bg-black text-white">
+            <a href={gitHubAuthUrl} className="btn btn-wide bg-black text-white">
               Login with GitHub
             </a>
           </div>

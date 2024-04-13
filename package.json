@@ -8,7 +8,6 @@
     "build:pack": "turbo run build --filter=@acme/*",
     "clean": "turbo run clean",
     "dev": "dotenv -- turbo run dev",
-    "dev:astro": "dotenv -- turbo run dev --filter=astro --filter=api",
     "dev:web": "dotenv -- turbo run dev --filter=web --filter=api",
     "dev:api": "dotenv -- turbo run dev --filter=api",
     "lint": "turbo run lint",

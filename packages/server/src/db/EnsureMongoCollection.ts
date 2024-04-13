@@ -12,7 +12,7 @@ export class CollectionOptions<TEntity extends ServerEntity> {
     readonly ownerIdField: keyof TEntity,
     readonly indexes = Array.of<IndexDescription & { key: Partial<{ [TProp in keyof TEntity]: IndexDirection }> }>(),
   ) {
-    this.name = `${this.prefix}_${name}`
+    this.name = `${this.prefix}-${name}`
   }
 }
 
