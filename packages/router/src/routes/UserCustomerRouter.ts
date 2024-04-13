@@ -1,4 +1,4 @@
-import { UserCustomerService } from "@acme/server";
+import { OrganizationService, UserCustomerService } from "@acme/server";
 import { protectedProcedure } from "../TRPC.js";
 import { t } from "../TRPC.js";
 import { procedureAssert } from "../util/Procedure.js";
@@ -15,8 +15,15 @@ export const userCustomerRouter = t.router({
   getUser: protectedProcedure
     .input(z.string())
     .query(async (opts) => {
+
       const user = UserCustomerService.Instance().getUser(opts.input)
       procedureAssert(user, 'NOT_FOUND')
-      return user
+
+      const organizations = await OrganizationService.Instance().getOrgs({ userId: opts.input })
+
+      return {
+        ...user,
+        organization: organizations.at(0),
+      }
     }),
 })
