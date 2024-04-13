@@ -76,7 +76,7 @@ export async function mkAuthForCustomerGitHubRouter() {
     const session = await lucia.createSession(user._id, {});
     return res
       .appendHeader("Set-Cookie", lucia.createSessionCookie(session.id).serialize())
-      .redirect(ServerEnv.Origin.Web);
+      .redirect(joinPaths(ServerEnv.Origin.Web, 'account'));
   })
 
   return router
