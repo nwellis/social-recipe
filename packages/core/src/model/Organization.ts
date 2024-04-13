@@ -1,5 +1,5 @@
-import { ServerEntityVersioned } from "../index.js";
+import { ServerEntityManaged } from "../index.js";
 
 
-export interface Organization extends ServerEntityVersioned {
+export interface Organization extends ServerEntityManaged {
 }

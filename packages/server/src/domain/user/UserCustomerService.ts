@@ -1,4 +1,4 @@
-import { DatabaseEntityStore, Organization, UserCustomer } from "@acme/core";
+import { DatabaseEntityStore, Organization, ServerEntityManaged, UserCustomer } from "@acme/core";
 import mem from "mem";
 import { UserCustomerStore } from "../../store/UserCustomerStore.js";
 import { OrganizationStore } from "../../store/OrganizationStore.js";
@@ -21,11 +21,15 @@ export class UserCustomerService {
     return this.user.findOne(id, { hashedPassword: 0, __version: 0, __schema: 0 });
   }
 
-  async createUser(payload: Omit<UserCustomer, "_id">) {
-    const user = {
+  async createUser(payload: Omit<UserCustomer, keyof ServerEntityManaged>) {
+    const user: UserCustomer = {
       ...payload,
       _id: this.createUserId(),
+      __schema: 1,
+      __version: 1,
+      createdAt: Date.now(),
     }
+
     await this.user.set(user._id, user);
     await this.initialUserSetup(user);
 
@@ -37,6 +41,7 @@ export class UserCustomerService {
       _id: user._id,
       __schema: 1,
       __version: 1,
+      createdAt: Date.now(),
     })
   }
 }

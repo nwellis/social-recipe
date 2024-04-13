@@ -5,7 +5,6 @@ import { ServerEnv } from "@acme/server-env"
 import { lucia } from "../lib/Lucia.js"
 import { OAuth2Service, UserCustomerService } from "@acme/server"
 import { joinPaths } from "@acme/util"
-import { Logger } from "../Logger.js"
 
 export async function mkAuthForCustomerGitHubRouter() {
   const gitHub = new GitHub(
@@ -66,8 +65,6 @@ export async function mkAuthForCustomerGitHubRouter() {
     }
 
     const user = await userService.createUser({
-      __version: 1,
-      __schema: 1,
       email: githubUser.email,
       emailVerified: Boolean(githubUser.email),
     })
