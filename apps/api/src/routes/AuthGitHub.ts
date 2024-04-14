@@ -3,7 +3,7 @@ import { GitHub, OAuth2RequestError, generateState } from "arctic"
 import { parseCookies, serializeCookie } from "oslo/cookie"
 import { ServerEnv } from "@acme/server-env"
 import { lucia } from "../lib/Lucia.js"
-import { OAuth2Service, UserCustomerService } from "@acme/server"
+import { OAuth2Service, OrganizationService, UserCustomerService } from "@acme/server"
 import { joinPaths } from "@acme/util"
 
 export async function mkAuthForCustomerGitHubRouter() {
@@ -18,6 +18,7 @@ export async function mkAuthForCustomerGitHubRouter() {
   const router = Router()
   const oauthService = OAuth2Service.CustomerInstance()
   const userService = UserCustomerService.Instance()
+  const organizationService = OrganizationService.Instance()
 
   router.get("/", async (_, res) => {
     const state = generateState();
@@ -58,13 +59,17 @@ export async function mkAuthForCustomerGitHubRouter() {
     const githubUser = await githubUserResponse.json() as { id: string, login: string, email: string };
     const existing = await oauthService.getOAuthAccount({ providerId: 'GitHub', providerUserId: githubUser.id });
     if (existing) {
-      const session = await lucia.createSession(existing.userId, {});
+      const organizations = await organizationService.getOrgs({ userId: existing.userId })
+      const session = await lucia.createSession(existing.userId, {
+        orgId: organizations.at(0)._id,
+        scopes: [],
+      });
       return res
         .appendHeader('Set-Cookie', lucia.createSessionCookie(session.id).serialize())
         .redirect(ServerEnv.Origin.Web);
     }
 
-    const user = await userService.createUser({
+    const { user, org } = await userService.createUser({
       email: githubUser.email,
       emailVerified: Boolean(githubUser.email),
     })
@@ -73,7 +78,10 @@ export async function mkAuthForCustomerGitHubRouter() {
       providerUserId: githubUser.id
     })
 
-    const session = await lucia.createSession(user._id, {});
+    const session = await lucia.createSession(user._id, {
+      orgId: org._id,
+      scopes: [],
+    });
     return res
       .appendHeader("Set-Cookie", lucia.createSessionCookie(session.id).serialize())
       .redirect(joinPaths(ServerEnv.Origin.Web, 'account'));

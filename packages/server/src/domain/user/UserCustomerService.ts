@@ -31,13 +31,13 @@ export class UserCustomerService {
     }
 
     await this.user.set(user._id, user);
-    await this.initialUserSetup(user);
+    const org = await this.initialUserSetup(user);
 
-    return user;
+    return { user, org };
   }
 
   async initialUserSetup(user: UserCustomer) {
-    await this.organization.createOrg({
+    return this.organization.createOrg({
       userId: user._id,
     })
   }
