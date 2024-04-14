@@ -1,3 +1,4 @@
+export * from './Folder.js';
 export * from './OAuthAccount.js';
 export * from './Organization.js';
 export * from './Recipe.js';
