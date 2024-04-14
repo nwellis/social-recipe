@@ -9,7 +9,13 @@ export const userCustomerRouter = t.router({
     .query(async (opts) => {
       const user = await UserCustomerService.Instance().getUser(opts.ctx.user.id)
       procedureAssert(user, 'NOT_FOUND')
-      return user
+
+      const organizations = await OrganizationService.Instance().getOrgs({ userId: opts.ctx.user.id })
+
+      return {
+        ...user,
+        organization: organizations.at(0),
+      }
     }),
 
   getUser: protectedProcedure
@@ -18,12 +24,6 @@ export const userCustomerRouter = t.router({
 
       const user = UserCustomerService.Instance().getUser(opts.input)
       procedureAssert(user, 'NOT_FOUND')
-
-      const organizations = await OrganizationService.Instance().getOrgs({ userId: opts.input })
-
-      return {
-        ...user,
-        organization: organizations.at(0),
-      }
+      return user
     }),
 })
