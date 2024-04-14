@@ -4,9 +4,7 @@ import { querySelf } from "./queries/UserQueries"
 
 export async function isAuthenticatedOrRedirect({ context }: { context: RouterContext }) {
   try {
-    console.log(`Checking if user is authenticated`)
-    const result = await context.queryClient.ensureQueryData(querySelf)
-    console.log(result)
+    await context.queryClient.ensureQueryData(querySelf)
   } catch (error) {
     throw redirect({
       to: '/login',
