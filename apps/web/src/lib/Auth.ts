@@ -2,8 +2,9 @@ import { redirect } from "@tanstack/react-router"
 import { RouterContext } from "./RouterContext"
 import { querySelf } from "./queries/UserQueries"
 
-export async function isAuthedOrRedirect({ context }: { context: RouterContext }) {
+export async function isAuthenticatedOrRedirect({ context }: { context: RouterContext }) {
   try {
+    console.log(`Checking if user is authenticated`)
     const result = await context.queryClient.ensureQueryData(querySelf)
     console.log(result)
   } catch (error) {
