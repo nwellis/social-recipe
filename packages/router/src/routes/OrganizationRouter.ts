@@ -17,7 +17,6 @@ export const organizationRouter = t.router({
     .input(z.string())
     .query(async (opts) => {
       const organizations = await OrganizationService.Instance().getOrgs({ userId: opts.input })
-      procedureAssert(organizations.length, 'NOT_FOUND')
       return organizations
     }),
 })

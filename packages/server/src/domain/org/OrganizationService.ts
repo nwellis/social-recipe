@@ -20,7 +20,8 @@ export class OrganizationService {
   }
 
   async getOrgs(query: { userId: string }) {
-    return this.organization.allWithOwner(query.userId)
+    const usersOrgs = await this.organization.allWithOwner(query.userId)
+    return usersOrgs.slice().sort((a, b) => a.createdAt - b.createdAt)
   }
 
   async createOrg(payload: Omit<Organization, keyof ServerEntityManaged>) {
