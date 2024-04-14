@@ -3,7 +3,7 @@ import { joinPaths } from '@acme/util'
 
 const gitHubAuthUrl = joinPaths(import.meta.env.VITE_API_URL, 'api/v1/auth/github')
 
-export const Route = createFileRoute('/(public)/login')({
+export const Route = createFileRoute('/login')({
   component: Login
 })
 
