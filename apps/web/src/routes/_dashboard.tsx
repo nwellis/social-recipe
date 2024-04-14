@@ -7,11 +7,12 @@ export const Route = createFileRoute('/_dashboard')({
 })
 
 function LayoutComponent() {
+
   return (
     <div className='h-full grid grid-rows-header-footer'>
-      <header className='bg-primary text-white p-4'>Header</header>
+      <header />
       <Outlet />
-      <footer className='bg-primary text-white p-4'>Footer</footer>
+      <footer />
     </div>
   )
 }
