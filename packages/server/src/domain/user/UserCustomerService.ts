@@ -47,14 +47,31 @@ export class UserCustomerService {
       userId: user._id,
     })
 
-    const folder = await this.folder.createFolder({
-      __type: 'Recipes',
-      name: 'My Recipes',
-      createdBy: 'system',
-      orgId: org._id,
-      entityIds: [],
-      subfolderIds: [],
-    })
+    const folder = await Promise.all([
+      this.folder.createFolder({
+        __type: 'UserCreatedRecipes',
+        root: true,
+        permanent: true,
+        createdBy: 'System',
+
+        name: 'My Recipes',
+        orgId: org._id,
+        entityIds: [],
+        subfolderIds: [],
+      }),
+
+      this.folder.createFolder({
+        __type: 'UserSavedRecipes',
+        root: true,
+        permanent: true,
+        createdBy: 'System',
+
+        name: 'Saved Recipes',
+        orgId: org._id,
+        entityIds: [],
+        subfolderIds: [],
+      })
+    ])
 
     return { org, folder }
   }
