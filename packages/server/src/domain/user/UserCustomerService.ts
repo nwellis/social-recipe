@@ -3,14 +3,20 @@ import mem from "mem";
 import { UserCustomerStore } from "../../store/UserCustomerStore.js";
 import { generateId } from "lucia";
 import { OrganizationService } from "../org/OrganizationService.js";
+import { FolderService } from "../folder/FolderService.js";
 
 export class UserCustomerService {
 
-  static Instance = mem(() => new UserCustomerService(UserCustomerStore, OrganizationService.Instance()))
+  static Instance = mem(() => new UserCustomerService(
+    UserCustomerStore,
+    OrganizationService.Instance(),
+    FolderService.Instance(),
+  ))
 
   constructor(
     protected readonly user: DatabaseEntityStore<UserCustomer>,
     protected readonly organization: OrganizationService,
+    protected readonly folder: FolderService,
   ) { }
 
   createUserId() {
@@ -31,14 +37,25 @@ export class UserCustomerService {
     }
 
     await this.user.set(user._id, user);
-    const org = await this.initialUserSetup(user);
+    const setup = await this.initialUserSetup(user);
 
-    return { user, org };
+    return { user, ...setup };
   }
 
   async initialUserSetup(user: UserCustomer) {
-    return this.organization.createOrg({
+    const org = await this.organization.createOrg({
       userId: user._id,
     })
+
+    const folder = await this.folder.createFolder({
+      __type: 'Recipes',
+      name: 'My Recipes',
+      createdBy: 'system',
+      orgId: org._id,
+      entityIds: [],
+      subfolderIds: [],
+    })
+
+    return { org, folder }
   }
 }
