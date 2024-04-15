@@ -24,6 +24,6 @@ export abstract class DatabaseEntityStore<TEntity extends ServerEntity> {
   abstract patch(id: string, patch: Partial<TEntity>, filter?: Filter<TEntity>): Promise<number>;
   abstract patchMany(patches: DatabaseEntityPatch<TEntity>[]): Promise<number>;
 
-  abstract unset(id: string): Promise<number>;
-  abstract unsetMany(ids: string[]): Promise<number>;
+  abstract delete(id: string): Promise<number>;
+  abstract deleteMany(ids: string[]): Promise<number>;
 }

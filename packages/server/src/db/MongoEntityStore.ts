@@ -302,7 +302,7 @@ export class MongoEntityStore<TEntity extends ServerEntity> implements DatabaseE
     return results.insertedCount + results.upsertedCount;
   }
 
-  async unset(id: string) {
+  async delete(id: string) {
 
     const collection = await this.useCollection();
     const { deletedCount } = await collection.deleteOne({
@@ -314,7 +314,7 @@ export class MongoEntityStore<TEntity extends ServerEntity> implements DatabaseE
     return deletedCount;
   }
 
-  async unsetMany(ids: string[]) {
+  async deleteMany(ids: string[]) {
     if (!ids?.length) {
       return 0;
     }
