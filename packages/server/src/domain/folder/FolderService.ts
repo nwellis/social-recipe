@@ -36,4 +36,8 @@ export class FolderService {
 
     return folder;
   }
+
+  async deleteFolder(id: string) {
+    return this.folder.delete(id)
+  }
 }
