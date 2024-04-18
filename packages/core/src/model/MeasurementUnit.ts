@@ -1,12 +1,12 @@
 import { StrEnum } from "@acme/util"
 
 export const DryMeasurementUnits = new StrEnum([
-  "pinch", "dash", "handful"
+  "pinch", "dash", "handful", "tsp", "tbsp", "oz", "lb", "g", "kg",
 ] as const)
 export type DryMeasurementUnit = (typeof DryMeasurementUnits)["values"][number]
 
 export const LiquidMeasurementUnits = new StrEnum([
-  "floz", "cup", "pint", "quart", "gallon",
+  "tsp", "tbsp", "floz", "cup", "pt", "qt", "gal",
 ] as const)
 export type LiquidMeasurementUnit = (typeof LiquidMeasurementUnits)["values"][number]
 
