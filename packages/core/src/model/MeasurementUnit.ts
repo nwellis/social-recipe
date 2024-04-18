@@ -6,7 +6,7 @@ export const DryMeasurementUnits = new StrEnum([
 export type DryMeasurementUnit = (typeof DryMeasurementUnits)["values"][number]
 
 export const LiquidMeasurementUnits = new StrEnum([
-  "tsp", "tbsp", "floz", "cup", "pt", "qt", "gal",
+  "tsp", "tbsp", "floz", "cup", "pt", "qt", "gal", "ml", "l",
 ] as const)
 export type LiquidMeasurementUnit = (typeof LiquidMeasurementUnits)["values"][number]
 
