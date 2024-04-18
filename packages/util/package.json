@@ -19,6 +19,7 @@
     "@acme/eslint-config": "*",
     "@acme/typescript-config": "*",
     "eslint": "^8.56.0",
+    "ts-essentials": "^9.4.2",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
   }

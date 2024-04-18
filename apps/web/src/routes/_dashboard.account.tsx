@@ -21,6 +21,7 @@ function Account() {
         </div>
 
       </div>
+
       <div className='card flex flex-col bg-white shadow-xl p-4 min-h-64'>
         <h1 className='font-bold text-3xl text-primary'>Saved Recipes</h1>
         <div className='flex flex-wrap gap-4 mt-4'>

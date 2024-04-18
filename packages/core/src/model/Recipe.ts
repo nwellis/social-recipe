@@ -1,4 +1,4 @@
-import { ServerEntityManaged } from "../index.js";
+import { RecipeIngredient, ServerEntityManaged } from "../index.js";
 
 export interface Recipe extends ServerEntityManaged {
   updatedAt: number
@@ -6,7 +6,7 @@ export interface Recipe extends ServerEntityManaged {
   orgId: string
   name: string
   description: string
-  ingredients: string[]
+  ingredients: RecipeIngredient[]
   steps: string[]
   tags: string[]
   // rating: number
