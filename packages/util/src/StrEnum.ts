@@ -3,7 +3,9 @@ export class StrEnum<T> {
   readonly values: readonly T[]
 
   constructor(values: T[]) {
-    this.values = Object.freeze(values.slice())
+    this.values = Object.freeze(
+      Array.from(new Set(values))
+    )
   }
 
   is(value: any): value is T {
