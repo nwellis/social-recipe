@@ -179,9 +179,7 @@ export class MongoEntityStore<TEntity extends ServerEntity> implements DatabaseE
     query = {
       $and: [
         {
-          [this.options.ownerIdField]: {
-            $in: ownerId
-          }
+          [this.options.ownerIdField]: ownerId
         },
         query
       ]
