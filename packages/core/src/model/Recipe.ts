@@ -5,7 +5,7 @@ export interface Recipe extends ServerEntityManaged {
 
   orgId: string
   slug: string
-  name: string
+  title: string
   description: string
   ingredients: RecipeIngredient[]
   steps: string[]

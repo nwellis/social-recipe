@@ -9,7 +9,7 @@ export interface Folder extends ServerEntityManaged {
   permanent: boolean
 
   orgId: string
-  name: string
+  title: string
   entityIds: string[]
   subfolderIds: string[]
 }

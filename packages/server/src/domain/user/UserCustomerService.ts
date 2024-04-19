@@ -54,7 +54,7 @@ export class UserCustomerService {
         permanent: true,
         createdBy: 'System',
 
-        name: 'My Recipes',
+        title: 'My Recipes',
         orgId: org._id,
         entityIds: [],
         subfolderIds: [],
@@ -66,7 +66,7 @@ export class UserCustomerService {
         permanent: true,
         createdBy: 'System',
 
-        name: 'Saved Recipes',
+        title: 'Saved Recipes',
         orgId: org._id,
         entityIds: [],
         subfolderIds: [],
