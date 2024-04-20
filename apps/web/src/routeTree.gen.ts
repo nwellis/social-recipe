@@ -12,8 +12,9 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
+import { Route as MainImport } from './routes/_main'
 import { Route as DashboardImport } from './routes/_dashboard'
-import { Route as IndexImport } from './routes/index'
+import { Route as MainIndexImport } from './routes/_main.index'
 import { Route as DashboardAccountImport } from './routes/_dashboard.account'
 import { Route as DashboardRecipeNewImport } from './routes/_dashboard.recipe.new'
 import { Route as DashboardRecipeRecipeIdImport } from './routes/_dashboard.recipe.$recipeId'
@@ -25,14 +26,19 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const MainRoute = MainImport.update({
+  id: '/_main',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const DashboardRoute = DashboardImport.update({
   id: '/_dashboard',
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
+const MainIndexRoute = MainIndexImport.update({
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => MainRoute,
 } as any)
 
 const DashboardAccountRoute = DashboardAccountImport.update({
@@ -54,12 +60,12 @@ const DashboardRecipeRecipeIdRoute = DashboardRecipeRecipeIdImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
     '/_dashboard': {
       preLoaderRoute: typeof DashboardImport
+      parentRoute: typeof rootRoute
+    }
+    '/_main': {
+      preLoaderRoute: typeof MainImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -69,6 +75,10 @@ declare module '@tanstack/react-router' {
     '/_dashboard/account': {
       preLoaderRoute: typeof DashboardAccountImport
       parentRoute: typeof DashboardImport
+    }
+    '/_main/': {
+      preLoaderRoute: typeof MainIndexImport
+      parentRoute: typeof MainImport
     }
     '/_dashboard/recipe/$recipeId': {
       preLoaderRoute: typeof DashboardRecipeRecipeIdImport
@@ -84,12 +94,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  IndexRoute,
   DashboardRoute.addChildren([
     DashboardAccountRoute,
     DashboardRecipeRecipeIdRoute,
     DashboardRecipeNewRoute,
   ]),
+  MainRoute.addChildren([MainIndexRoute]),
   LoginRoute,
 ])
 
