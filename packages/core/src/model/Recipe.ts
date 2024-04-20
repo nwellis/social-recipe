@@ -13,4 +13,6 @@ export interface Recipe extends ServerEntityManaged {
   tags: string[]
   // rating: number
   serves: number
+  durationMinutes: number
+  difficulty: number
 }
