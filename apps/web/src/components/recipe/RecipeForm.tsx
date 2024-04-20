@@ -1,3 +1,4 @@
+import { cn } from "@acme/ui/util";
 import React from "react";
 
 export type RecipeFormProps = {
@@ -10,7 +11,7 @@ export default function RecipeForm({
 }: RecipeFormProps) {
   return (
     <form
-      className={className}
+      className={cn(className, '')}
       {...rest}
     >
 

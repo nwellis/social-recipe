@@ -1,4 +1,5 @@
 import React from "react";
+import { cn } from '@acme/ui/util'
 
 export type TemplateProps = {
 
@@ -10,7 +11,7 @@ export default function Template({
 }: TemplateProps) {
   return (
     <div
-      className={className}
+      className={cn(className, '')}
       {...rest}
     >
 
