@@ -1,4 +1,4 @@
-import { cn } from "../util/CSS.js"
+import { cn } from "../../util/CSS.js"
 
 export type LabelProps = {
   text?: string

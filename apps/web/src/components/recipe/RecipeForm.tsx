@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { cn } from '@acme/ui/util'
 import { Label } from '@acme/ui/components'
+import { Recipe } from '@acme/core'
 
 export type RecipeFormProps = {
-
+  initial?: Partial<Recipe>
 } & React.ComponentProps<'form'>
 
 export default function RecipeForm({
+  initial = {},
   className,
   ...rest
 }: RecipeFormProps) {
+
+  const [recipe, setRecipe] = useState<Partial<Recipe>>(initial)
+
   return (
     <form
       className={cn(
@@ -21,7 +26,16 @@ export default function RecipeForm({
       <Label
         text='Recipe Name'
       >
-        <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+        <input
+          type='text'
+          placeholder='Give this recipe a name'
+          className={cn(
+            'input input-bordered w-full max-w-xs',
+
+          )}
+          value={recipe.title}
+          onChange={e => setRecipe({ ...recipe, title: e.target.value })}
+        />
       </Label>
     </form>
   )
