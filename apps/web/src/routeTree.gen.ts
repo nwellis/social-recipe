@@ -15,6 +15,7 @@ import { Route as LoginImport } from './routes/login'
 import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as IndexImport } from './routes/index'
 import { Route as DashboardAccountImport } from './routes/_dashboard.account'
+import { Route as DashboardRecipeNewImport } from './routes/_dashboard.recipe.new'
 import { Route as DashboardRecipeRecipeIdImport } from './routes/_dashboard.recipe.$recipeId'
 
 // Create/Update Routes
@@ -36,6 +37,11 @@ const IndexRoute = IndexImport.update({
 
 const DashboardAccountRoute = DashboardAccountImport.update({
   path: '/account',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardRecipeNewRoute = DashboardRecipeNewImport.update({
+  path: '/recipe/new',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -68,6 +74,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRecipeRecipeIdImport
       parentRoute: typeof DashboardImport
     }
+    '/_dashboard/recipe/new': {
+      preLoaderRoute: typeof DashboardRecipeNewImport
+      parentRoute: typeof DashboardImport
+    }
   }
 }
 
@@ -78,6 +88,7 @@ export const routeTree = rootRoute.addChildren([
   DashboardRoute.addChildren([
     DashboardAccountRoute,
     DashboardRecipeRecipeIdRoute,
+    DashboardRecipeNewRoute,
   ]),
   LoginRoute,
 ])

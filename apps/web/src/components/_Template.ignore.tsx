@@ -11,7 +11,10 @@ export default function Template({
 }: TemplateProps) {
   return (
     <div
-      className={cn(className, '')}
+      className={cn(
+        '',
+        className,
+      )}
       {...rest}
     >
 
