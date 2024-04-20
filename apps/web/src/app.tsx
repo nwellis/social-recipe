@@ -1,16 +1,15 @@
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { AppQueryClient } from 'lib/AppQueryClient'
 import './index.css'
-
-const queryClient = new QueryClient()
 
 // Set up a Router instance
 const router = createRouter({
   routeTree,
   context: {
-    queryClient,
+    queryClient: AppQueryClient,
   },
   defaultPreload: 'intent',
   // Since we're using React Query, we don't want loader calls to ever be stale
@@ -29,7 +28,7 @@ const rootElement = document.getElementById('app')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={AppQueryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>,
   )

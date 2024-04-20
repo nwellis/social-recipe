@@ -1,10 +1,14 @@
+import { useQuery } from '@tanstack/react-query'
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
+import { querySession } from 'lib/queries/AuthQueries'
 
 export const Route = createFileRoute('/_main')({
   component: LayoutComponent,
 })
 
 function LayoutComponent() {
+
+  const { data: session } = useQuery(querySession)
 
   return (
     <div className='h-full grid grid-rows-header-footer'>
@@ -14,9 +18,23 @@ function LayoutComponent() {
             <a className='btn btn-ghost btn-sm text-xl text-primary'>Recipes</a>
           </div>
           <div className='flex-none'>
-            <ul className='menu menu-horizontal px-1'>
+            <ul className='menu menu-horizontal px-1 gap-2'>
               <li>
-                <Link to='/login' className='btn btn-primary btn-sm'>Sign Up</Link>
+                <Link
+                  className='btn btn-ghost btn-sm w-20'
+                  to={session ? '/account' : '/login'}
+                  search={{ redirect: '/account' }}
+                >
+                  Saved
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className='btn btn-primary btn-sm w-20'
+                  to={session ? '/account' : '/login'}
+                >
+                  {session ? 'Profile' : 'Sign Up'}
+                </Link>
               </li>
               {/* <li>
                 <details>
