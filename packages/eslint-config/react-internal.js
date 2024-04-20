@@ -14,7 +14,13 @@ const project = resolve(process.cwd(), "tsconfig.json");
 
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  extends: ["eslint:recommended", "eslint-config-turbo"],
+  extends: [
+    "eslint:recommended",
+    "eslint-config-turbo",
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    require.resolve("ignore-rules.js"),
+  ],
   plugins: ["only-warn"],
   globals: {
     React: true,

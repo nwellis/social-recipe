@@ -1,19 +1,25 @@
 {
   "name": "@acme/ui",
   "version": "0.0.0",
+  "type": "module",
+  "private": true,
   "exports": {
-    "./button": "./src/button.tsx"
+    "./util": "./src/util",
+    "./component": "./src/component"
   },
   "scripts": {
     "lint": "eslint \"**/*.ts*\" --max-warnings 0"
   },
   "devDependencies": {
+    "@acme/eslint-config": "*",
+    "@acme/typescript-config": "*",
     "@types/react": "^18.2.46",
     "@types/react-dom": "^18.2.18",
     "eslint": "^8.56.0",
-    "@acme/eslint-config": "*",
     "react": "^18.2.0",
-    "@acme/typescript-config": "*",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "clsx": "^2.1.0"
   }
 }
