@@ -24,7 +24,7 @@ const ChunkNameAndCheck: Record<string, (id: string) => boolean> = {
 
   // NODE_MODULES
   "vendor-lodash": nodeModuleIncludes("lodash"), // so many modules use lodash, so hold onto this just in case
-  "vendor-react-shared": nodeModuleIncludes("react-is/", "ua-parser-js/", "prop-types/"), // shared between react vendors, makes them accessible to all
+  "vendor-react-shared": nodeModuleIncludes("react-is/", "ua-parser-js/", "prop-types/", "use-sync-external-store/"), // shared between react vendors, makes them accessible to all
   "vendor-react-core": nodeModuleIncludes("react/", "react-dom/", "scheduler/"),
   "vendor-react-misc": nodeModuleIncludes("react"),
   "vendor-acme": nodeModuleIncludes("@acme"),
@@ -43,12 +43,13 @@ export default defineConfig({
     TanStackRouterVite(),
     visualizer(),
   ],
-  // build: {
-  //   rollupOptions: {
-  //     output: {
-  //       manualChunks: (id) => ManualChunks.find(({ check }) => check(id))?.name
-  //     }
-  //   },
-  // }
+  build: {
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => ManualChunks.find(({ check }) => check(id))?.name,
+      }
+    },
+  }
 })
 
