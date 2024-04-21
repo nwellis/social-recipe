@@ -11,15 +11,31 @@ export const Route = createFileRoute('/_dashboard')({
 
 function LayoutComponent() {
 
-  const { mutate: logout } = useMutation({ mutationFn: ApiClient.auth.deleteSession.mutate })
+  const { mutate: logout } = useMutation({
+    mutationFn: ApiClient.auth.deleteSession.mutate,
+    onSuccess: () => {
+
+    }
+  })
 
   return (
     <div className='h-full grid grid-rows-header-footer'>
+
+      <AlertDialog
+        id='_dashboard-logout'
+        title='Logout'
+        onConfirm={() => logout()}
+      >
+        <p className='py-4'>Are you sure you want to logout?</p>
+      </AlertDialog>
+
       <header className='w-full border-b border-divider bg-base-100'>
         <div className='container navbar'>
           <div className='flex-1'>
             <Link to='/' className='btn btn-ghost btn-sm text-xl text-primary'>Recipes</Link>
           </div>
+
+          <button className="btn btn-sm" onClick={() => (document.getElementById('my_modal_2') as HTMLDialogElement)?.showModal()}>open modal</button>
           <div className='flex-none'>
             <ul className='menu menu-horizontal px-1 gap-2'>
               <li>
@@ -38,15 +54,6 @@ function LayoutComponent() {
                   <Icon name='Exit' />
                   Logout
                 </button>
-                <AlertDialog
-                  open={false}
-                  id='_dashboard-logout'
-                  title='Logout'
-                  onConfirm={() => logout()}
-                  blocking
-                >
-                  <p className='py-4'>Are you sure you want to logout?</p>
-                </AlertDialog>
               </li>
               {/* <li>
                 <details>

@@ -18,7 +18,7 @@ export function Dialog({
     >
       <div
         className={cn(
-          'modal-box w-11/12 max-w-5xl',
+          'modal-box',
           className,
         )}
       >
