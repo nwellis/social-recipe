@@ -3,7 +3,10 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { AppQueryClient } from 'lib/AppQueryClient'
+import { initIcons } from '@acme/ui/components'
 import './index.css'
+
+initIcons()
 
 // Set up a Router instance
 const router = createRouter({

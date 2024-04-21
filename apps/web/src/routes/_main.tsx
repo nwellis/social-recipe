@@ -1,3 +1,4 @@
+import { Icon } from '@acme/ui/components'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 import { querySession } from 'lib/queries/AuthQueries'
@@ -30,9 +31,10 @@ function LayoutComponent() {
               </li>
               <li>
                 <Link
-                  className='btn btn-primary btn-sm w-20'
+                  className='btn btn-primary btn-sm w-28 flex gap-1'
                   to={session ? '/account' : '/login'}
                 >
+                  <Icon name='User' />
                   {session ? 'Profile' : 'Sign Up'}
                 </Link>
               </li>
