@@ -3,7 +3,7 @@ import { ApiClient } from "../ApiClient";
 import ms from 'ms';
 
 export const querySelf = queryOptions({
-  queryKey: ['user-self'],
+  queryKey: ['user', 'self'],
   queryFn: () => ApiClient.user.getSelf.query(),
   staleTime: ms('1h'),
 })

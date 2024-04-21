@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { cn } from '@acme/ui/util'
 import { Label } from '@acme/ui/components'
 import { Recipe } from '@acme/core'
+import { MDXEditor, headingsPlugin, listsPlugin } from '@mdxeditor/editor'
 
 export type RecipeFormProps = {
   initial?: Partial<Recipe>
@@ -37,6 +38,14 @@ export default function RecipeForm({
           onChange={e => setRecipe({ ...recipe, title: e.target.value })}
         />
       </Label>
+
+      <MDXEditor
+        plugins={[
+          listsPlugin(),
+          headingsPlugin(),
+        ]}
+        markdown='MARKDOWN'
+      />
     </form>
   )
 }
