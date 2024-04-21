@@ -5,7 +5,6 @@ export interface Recipe extends ServerEntityManaged {
   publishedAt: number
 
   orgId: string
-  slug: string
   title: string
   description: string
   instructions: string

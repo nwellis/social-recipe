@@ -1,15 +1,16 @@
-import { DatabaseEntityStore, Recipe, ServerEntityManaged } from "@acme/core";
+import { DatabaseEntityStore, Recipe, RecipeSlug, ServerEntityManaged } from "@acme/core";
 import mem from "mem";
 import { generateId } from "lucia";
-import { RecipeStore } from "../../index.js";
+import { RecipeSlugStore, RecipeStore } from "../../index.js";
 import { DatabasePaginator } from '../../db/DatabasePaginator.js';
 
 export class RecipeService {
 
-  static Instance = mem(() => new RecipeService(RecipeStore))
+  static Instance = mem(() => new RecipeService(RecipeStore, RecipeSlugStore))
 
   constructor(
     protected readonly recipe: DatabaseEntityStore<Recipe>,
+    protected readonly recipeSlug: DatabaseEntityStore<RecipeSlug>,
   ) { }
 
   createId() {

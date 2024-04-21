@@ -3,7 +3,6 @@ import { protectedProcedure, publicProcedure } from "../TRPC.js";
 import { t } from "../TRPC.js";
 import { procedureAssert } from "../util/Procedure.js";
 import { z } from "zod";
-import { UrlSlugValidator } from '@acme/util';
 
 const ResourceSchema = z.object({
   title: z.string()
@@ -43,7 +42,6 @@ export const recipeRouter = t.router({
       return RecipeService.Instance().createRecipe({
         publishedAt: 0,
         orgId: opts.ctx.session.orgId,
-        slug: new UrlSlugValidator().mkSlug(opts.input.title),
         title: opts.input.title.trim(),
         description: "",
         instructions: opts.input.instructions.trim(),
