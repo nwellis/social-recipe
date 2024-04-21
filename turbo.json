@@ -3,6 +3,9 @@
   "globalDependencies": [
     "**/.env.*local"
   ],
+  "globalDotEnv": [
+    ".env"
+  ],
   "globalEnv": [
     "PORT",
     "NODE_ENV",
@@ -46,7 +49,15 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "dotEnv": [
+        ".env.development.local"
+      ]
+    },
+    "preview": {
+      "dotEnv": [
+        ".env.preview.local"
+      ]
     },
     "clean": {
       "cache": false

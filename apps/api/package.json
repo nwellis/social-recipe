@@ -8,7 +8,8 @@
     "clean": "rm -rf dist",
     "dev": "tsx watch ./src/index.ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
-    "start": "tsx ./src/index.ts"
+    "start": "tsx ./src/index.ts",
+    "preview": "tsx ./src/index.ts"
   },
   "dependencies": {
     "@acme/core": "*",

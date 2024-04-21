@@ -44,7 +44,7 @@ export default defineConfig({
     visualizer(),
   ],
   build: {
-    sourcemap: true,
+    // sourcemap: true, // for debugging
     rollupOptions: {
       output: {
         manualChunks: (id) => ManualChunks.find(({ check }) => check(id))?.name,
