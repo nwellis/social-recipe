@@ -22,8 +22,8 @@ function LayoutComponent() {
               <li>
                 <Link
                   className='btn btn-ghost btn-sm w-20'
-                  to={session ? '/account' : '/login'}
-                  search={session ? undefined : { redirect: '/account' }}
+                  to={session ? '/saved' : '/login'}
+                  search={session ? undefined : { redirect: '/saved' }}
                 >
                   Saved
                 </Link>
