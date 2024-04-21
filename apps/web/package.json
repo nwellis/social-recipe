@@ -26,6 +26,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@acme/css-config": "^0.0.0",
     "@acme/eslint-config": "*",
     "@tanstack/router-devtools": "^1.26.7",
     "@tanstack/router-vite-plugin": "^1.26.8",
