@@ -3,6 +3,14 @@ import { protectedProcedure, publicProcedure } from "../TRPC.js";
 import { t } from "../TRPC.js";
 import { procedureAssert } from "../util/Procedure.js";
 import { z } from "zod";
+import { UrlSlugValidator } from '@acme/util';
+
+const ResourceSchema = z.object({
+  title: z.string()
+    .min(8, 'Title must be at least 8 characters')
+    .max(100, 'Title must be less that 100 characters'),
+  instructions: z.string().min(1, 'Please provide instructions'),
+})
 
 export const recipeRouter = t.router({
   getRecipe: publicProcedure
@@ -20,13 +28,31 @@ export const recipeRouter = t.router({
       return recipe
     }),
 
-  getRecipes: protectedProcedure
+  getRecipes: publicProcedure
     .input(z.object({
       orgId: z.string(),
     }))
     .query(async (opts) => {
-      const recipes = await RecipeService.Instance().getRecipe(opts.input.orgId)
+      const recipes = await RecipeService.Instance().getOrganizationRecipes(opts.input.orgId)
       return recipes
+    }),
+
+  createRecipe: protectedProcedure
+    .input(ResourceSchema)
+    .query(async (opts) => {
+      return RecipeService.Instance().createRecipe({
+        publishedAt: 0,
+        orgId: opts.ctx.session.orgId,
+        slug: new UrlSlugValidator().mkSlug(opts.input.title),
+        title: opts.input.title.trim(),
+        description: "",
+        instructions: opts.input.instructions.trim(),
+        ingredients: [],
+        tags: [],
+        durationMinutes: 0,
+        serves: 0,
+        difficulty: 0,
+      })
     }),
 
   deleteRecipe: protectedProcedure

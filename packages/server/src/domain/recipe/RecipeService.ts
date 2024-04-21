@@ -2,6 +2,7 @@ import { DatabaseEntityStore, Recipe, ServerEntityManaged } from "@acme/core";
 import mem from "mem";
 import { generateId } from "lucia";
 import { RecipeStore } from "../../index.js";
+import { DatabasePaginator } from '../../db/DatabasePaginator.js';
 
 export class RecipeService {
 
@@ -23,22 +24,28 @@ export class RecipeService {
     return this.recipe.allWithOwner(orgId)
   }
 
-  async searchRecipes(query: {
+  async searchOrganizationRecipes(query: {
     orgId: string,
   }) {
-    return this.recipe.searchWithOwner(query.orgId, {
-      $and: [
-      ].filter(Boolean)
-    })
+    return new DatabasePaginator(this.recipe)
+      .pageThroughAllWithOwner(query.orgId, {
+        $and: [
+        ].filter(Boolean)
+      })
   }
 
-  async createRecipe(payload: Omit<Recipe, keyof ServerEntityManaged>) {
+  async searchRecipes(query: {}) {
+    return this.recipe.search({})
+  }
+
+  async createRecipe(payload: Omit<Recipe, keyof ServerEntityManaged | "updatedAt">) {
     const recipe: Recipe = {
       ...payload,
       _id: this.createId(),
       __schema: 1,
       __version: 1,
       createdAt: Date.now(),
+      updatedAt: Date.now(),
     }
 
     await this.recipe.set(recipe._id, recipe);
