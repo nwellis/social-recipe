@@ -17,7 +17,7 @@ import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as MainIndexImport } from './routes/_main.index'
 import { Route as DashboardAccountImport } from './routes/_dashboard.account'
 import { Route as DashboardRecipeNewImport } from './routes/_dashboard.recipe.new'
-import { Route as DashboardRecipeRecipeIdImport } from './routes/_dashboard.recipe.$recipeId'
+import { Route as DashboardRecipeEditRecipeIdImport } from './routes/_dashboard.recipe.edit.$recipeId'
 
 // Create/Update Routes
 
@@ -51,10 +51,11 @@ const DashboardRecipeNewRoute = DashboardRecipeNewImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
-const DashboardRecipeRecipeIdRoute = DashboardRecipeRecipeIdImport.update({
-  path: '/recipe/$recipeId',
-  getParentRoute: () => DashboardRoute,
-} as any)
+const DashboardRecipeEditRecipeIdRoute =
+  DashboardRecipeEditRecipeIdImport.update({
+    path: '/recipe/edit/$recipeId',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -80,12 +81,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainIndexImport
       parentRoute: typeof MainImport
     }
-    '/_dashboard/recipe/$recipeId': {
-      preLoaderRoute: typeof DashboardRecipeRecipeIdImport
-      parentRoute: typeof DashboardImport
-    }
     '/_dashboard/recipe/new': {
       preLoaderRoute: typeof DashboardRecipeNewImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/recipe/edit/$recipeId': {
+      preLoaderRoute: typeof DashboardRecipeEditRecipeIdImport
       parentRoute: typeof DashboardImport
     }
   }
@@ -96,8 +97,8 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   DashboardRoute.addChildren([
     DashboardAccountRoute,
-    DashboardRecipeRecipeIdRoute,
     DashboardRecipeNewRoute,
+    DashboardRecipeEditRecipeIdRoute,
   ]),
   MainRoute.addChildren([MainIndexRoute]),
   LoginRoute,
