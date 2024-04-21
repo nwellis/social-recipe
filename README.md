@@ -1,4 +1,7 @@
-# Mono Starter
+# Recipes
+
+## Requirements
+- Node 20
 
 ![Monorepo dependencies](./docs/media/monorepo-deps.png "Mono")
 
