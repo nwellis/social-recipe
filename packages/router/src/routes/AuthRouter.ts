@@ -7,9 +7,9 @@ export const authRouter = t.router({
     return (ctx.session?.expiresAt?.valueOf() ?? 0) > Date.now() ? ctx.session : undefined
   }),
   deleteSession: publicProcedure.mutation(async ({ ctx }) => {
-    if (!ctx.session?.id) {
-      return
+    if (ctx.session.id) {
+      await lucia.invalidateSession(ctx.session.id)
     }
-    await lucia.invalidateSession(ctx.session.id)
+    ctx.res.clearCookie('auth_session')
   }),
 })

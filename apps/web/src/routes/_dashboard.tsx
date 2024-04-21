@@ -1,6 +1,6 @@
 import { AlertDialog, Icon } from '@acme/ui/components'
 import { useMutation } from '@tanstack/react-query'
-import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
+import { Link, Outlet, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ApiClient } from 'lib/ApiClient'
 import { isAuthenticatedOrRedirect } from 'lib/Auth'
 
@@ -11,11 +11,10 @@ export const Route = createFileRoute('/_dashboard')({
 
 function LayoutComponent() {
 
+  const navigate = useNavigate()
   const { mutate: logout } = useMutation({
     mutationFn: ApiClient.auth.deleteSession.mutate,
-    onSuccess: () => {
-
-    }
+    onSettled: () => navigate({ to: '/login', replace: true }),
   })
 
   return (
@@ -35,7 +34,6 @@ function LayoutComponent() {
             <Link to='/' className='btn btn-ghost btn-sm text-xl text-primary'>Recipes</Link>
           </div>
 
-          <button className="btn btn-sm" onClick={() => (document.getElementById('my_modal_2') as HTMLDialogElement)?.showModal()}>open modal</button>
           <div className='flex-none'>
             <ul className='menu menu-horizontal px-1 gap-2'>
               <li>
