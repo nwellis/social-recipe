@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-import { ApiClient } from '../lib/ApiClient'
 import { querySession } from 'lib/queries/AuthQueries'
+import { querySelf } from 'lib/queries/UserQueries'
 
 export const Route = createFileRoute('/_main/')({
   component: Home,
@@ -9,12 +9,7 @@ export const Route = createFileRoute('/_main/')({
 
 function Home() {
 
-  const { data: user, error } = useQuery({
-    queryKey: ['self'],
-    queryFn: () => ApiClient.user.getSelf.query(),
-    staleTime: Infinity,
-    retry: false,
-  })
+  const { data: user, error } = useQuery(querySelf)
 
   const { data: session } = useQuery(querySession)
 
