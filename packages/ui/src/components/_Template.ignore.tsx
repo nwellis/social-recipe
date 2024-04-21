@@ -5,7 +5,7 @@ export type TemplateProps = {
 
 } & React.ComponentProps<'div'>
 
-export default function Template({
+export function Template({
   className,
   ...rest
 }: TemplateProps) {
