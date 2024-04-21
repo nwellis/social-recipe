@@ -31,7 +31,7 @@ function LayoutComponent() {
               </li>
               <li>
                 <Link
-                  className='btn btn-primary btn-sm w-28 flex gap-1'
+                  className='btn btn-primary btn-sm w-32 flex gap-1'
                   to={session ? '/account' : '/login'}
                 >
                   <Icon name='User' />

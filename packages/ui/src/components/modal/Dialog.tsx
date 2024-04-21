@@ -13,15 +13,12 @@ export function Dialog({
 }: DialogProps) {
   return (
     <dialog
-      className={cn(
-        'modal modal-bottom sm:modal-middle',
-        className,
-      )}
+      className='modal modal-bottom sm:modal-middle'
       {...rest}
     >
       <div
         className={cn(
-          'modal-box',
+          'modal-box w-11/12 max-w-5xl',
           className,
         )}
       >

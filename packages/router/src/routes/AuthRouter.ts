@@ -6,7 +6,7 @@ export const authRouter = t.router({
   getSession: publicProcedure.query(({ ctx }) => {
     return (ctx.session?.expiresAt?.valueOf() ?? 0) > Date.now() ? ctx.session : undefined
   }),
-  deleteSession: publicProcedure.query(async ({ ctx }) => {
+  deleteSession: publicProcedure.mutation(async ({ ctx }) => {
     if (!ctx.session?.id) {
       return
     }

@@ -7,7 +7,7 @@ const fileExtensions = 'html,js,jsx,md,mdx,ts,tsx' as const
 const config: Config = {
   presets: [sharedConfig],
   content: [
-    `./src/**/*.{${fileExtensions}}`
+    `./src/components/**/*.{${fileExtensions}}`
   ],
   theme: {
     extend: {

@@ -1,4 +1,7 @@
+import { AlertDialog, Icon } from '@acme/ui/components'
+import { useMutation } from '@tanstack/react-query'
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
+import { ApiClient } from 'lib/ApiClient'
 import { isAuthenticatedOrRedirect } from 'lib/Auth'
 
 export const Route = createFileRoute('/_dashboard')({
@@ -7,6 +10,8 @@ export const Route = createFileRoute('/_dashboard')({
 })
 
 function LayoutComponent() {
+
+  const { mutate: logout } = useMutation({ mutationFn: ApiClient.auth.deleteSession.mutate })
 
   return (
     <div className='h-full grid grid-rows-header-footer'>
@@ -26,12 +31,22 @@ function LayoutComponent() {
                 </Link>
               </li>
               <li>
-                <Link
-                  className='btn btn-primary btn-sm w-20'
-                  to={'/'}
+                <button
+                  className='btn btn-primary btn-sm w-32'
+                  onClick={() => (document.getElementById('_dashboard-logout') as HTMLDialogElement)?.showModal()}
                 >
+                  <Icon name='Exit' />
                   Logout
-                </Link>
+                </button>
+                <AlertDialog
+                  open={false}
+                  id='_dashboard-logout'
+                  title='Logout'
+                  onConfirm={() => logout()}
+                  blocking
+                >
+                  <p className='py-4'>Are you sure you want to logout?</p>
+                </AlertDialog>
               </li>
               {/* <li>
                 <details>

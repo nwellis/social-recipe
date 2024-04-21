@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "exports": {
+    "./tailwind.config": "./tailwind.config.ts",
     "./util": "./src/util/index.ts",
     "./components": "./src/components/index.ts"
   },

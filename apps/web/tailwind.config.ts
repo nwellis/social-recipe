@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import sharedConfig from "@acme/css-config/tailwind.config";
+import sharedConfig from "@acme/ui/tailwind.config";
 import daisyui from 'daisyui';
 
 const fileExtensions = 'html,js,jsx,md,mdx,ts,tsx' as const
@@ -8,7 +8,8 @@ const config: Config = {
   presets: [sharedConfig],
   content: [
     './index.html',
-    `./src/**/*.{${fileExtensions}}`
+    `./src/**/*.{${fileExtensions}}`,
+    `../../node_modules/@acme/ui/src/components/**/*.{${fileExtensions}}`,
   ],
   theme: {
     extend: {
