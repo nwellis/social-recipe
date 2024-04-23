@@ -1,3 +1,4 @@
+export * from './EntityStats.js';
 export * from './Folder.js';
 export * from './Ingredient.js';
 export * from './MeasurementUnit.js';
