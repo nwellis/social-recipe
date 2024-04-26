@@ -5,7 +5,7 @@ import {
   faCircleUser, faTrashCan,
 } from '@fortawesome/free-regular-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket, faUtensils } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * @see https://fontawesome.com/search?o=r&m=free
@@ -15,6 +15,7 @@ export const AppFontAwesomeIcons = {
   Trash: faTrashCan,
   GitHub: faGithub,
   User: faCircleUser,
+  Utensils: faUtensils,
 }
 
 export function initIcons() {

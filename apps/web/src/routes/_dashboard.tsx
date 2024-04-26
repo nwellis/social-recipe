@@ -1,7 +1,5 @@
-import { AlertDialog, Icon } from '@acme/ui/components'
-import { useMutation } from '@tanstack/react-query'
-import { Link, Outlet, createFileRoute, useNavigate } from '@tanstack/react-router'
-import { ApiClient } from 'lib/ApiClient'
+import { Icon } from '@acme/ui/components'
+import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 import { isAuthenticatedOrRedirect } from 'lib/Auth'
 
 export const Route = createFileRoute('/_dashboard')({
@@ -11,22 +9,8 @@ export const Route = createFileRoute('/_dashboard')({
 
 function LayoutComponent() {
 
-  const navigate = useNavigate()
-  const { mutate: logout } = useMutation({
-    mutationFn: ApiClient.auth.deleteSession.mutate,
-    onSettled: () => navigate({ to: '/login', replace: true }),
-  })
-
   return (
     <div className='h-full grid grid-rows-header-footer'>
-
-      <AlertDialog
-        id='_dashboard-logout'
-        title='Logout'
-        onConfirm={() => logout()}
-      >
-        <p className='py-4'>Are you sure you want to logout?</p>
-      </AlertDialog>
 
       <header className='w-full border-b border-divider bg-base-100'>
         <div className='container navbar'>
@@ -45,13 +29,13 @@ function LayoutComponent() {
                 </Link>
               </li>
               <li>
-                <button
-                  className='btn btn-primary btn-sm w-32'
-                  onClick={() => (document.getElementById('_dashboard-logout') as HTMLDialogElement)?.showModal()}
+                <Link
+                  className='btn btn-primary btn-sm w-32 flex gap-2'
+                  to={'/account'}
                 >
-                  <Icon name='Exit' />
-                  Logout
-                </button>
+                  <Icon name='User' />
+                  <span>Profile</span>
+                </Link>
               </li>
               {/* <li>
                 <details>
