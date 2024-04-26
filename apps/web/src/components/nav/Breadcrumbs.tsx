@@ -6,6 +6,12 @@ export type BreadcrumbsProps = {
 
 } & React.ComponentProps<'div'>
 
+const normalizeFileRouteId = (routeId: string) => {
+  return routeId.split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
+
 export default function Breadcrumbs({
   className,
   ...rest
@@ -19,8 +25,9 @@ export default function Breadcrumbs({
       return fileRouteId.length > 0 && !fileRouteId.startsWith('_')
     })
     .map((match) => {
+      const fileRouteId = match.routeId.split('/').at(-1) ?? ''
       return {
-        title: match.pathname.split('/').at(-1),
+        title: normalizeFileRouteId(fileRouteId),
         path: match.pathname,
         routeId: match.routeId,
       }

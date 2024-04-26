@@ -19,8 +19,8 @@ import { Route as MainIndexImport } from './routes/_main.index'
 import { Route as AccountDashboardImport } from './routes/account/_dashboard'
 import { Route as AccountDashboardIndexImport } from './routes/account/_dashboard.index'
 import { Route as AccountDashboardSavedImport } from './routes/account/_dashboard.saved'
-import { Route as AccountDashboardRecipeNewImport } from './routes/account/_dashboard.recipe.new'
-import { Route as AccountDashboardRecipeEditRecipeIdImport } from './routes/account/_dashboard.recipe.edit.$recipeId'
+import { Route as AccountDashboardNewRecipeImport } from './routes/account/_dashboard.new-recipe'
+import { Route as AccountDashboardRecipeRecipeIdImport } from './routes/account/_dashboard.recipe.$recipeId'
 
 // Create Virtual Routes
 
@@ -63,14 +63,14 @@ const AccountDashboardSavedRoute = AccountDashboardSavedImport.update({
   getParentRoute: () => AccountDashboardRoute,
 } as any)
 
-const AccountDashboardRecipeNewRoute = AccountDashboardRecipeNewImport.update({
-  path: '/recipe/new',
+const AccountDashboardNewRecipeRoute = AccountDashboardNewRecipeImport.update({
+  path: '/new-recipe',
   getParentRoute: () => AccountDashboardRoute,
 } as any)
 
-const AccountDashboardRecipeEditRecipeIdRoute =
-  AccountDashboardRecipeEditRecipeIdImport.update({
-    path: '/recipe/edit/$recipeId',
+const AccountDashboardRecipeRecipeIdRoute =
+  AccountDashboardRecipeRecipeIdImport.update({
+    path: '/recipe/$recipeId',
     getParentRoute: () => AccountDashboardRoute,
   } as any)
 
@@ -98,6 +98,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainIndexImport
       parentRoute: typeof MainImport
     }
+    '/account/_dashboard/new-recipe': {
+      preLoaderRoute: typeof AccountDashboardNewRecipeImport
+      parentRoute: typeof AccountDashboardImport
+    }
     '/account/_dashboard/saved': {
       preLoaderRoute: typeof AccountDashboardSavedImport
       parentRoute: typeof AccountDashboardImport
@@ -106,12 +110,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountDashboardIndexImport
       parentRoute: typeof AccountDashboardImport
     }
-    '/account/_dashboard/recipe/new': {
-      preLoaderRoute: typeof AccountDashboardRecipeNewImport
-      parentRoute: typeof AccountDashboardImport
-    }
-    '/account/_dashboard/recipe/edit/$recipeId': {
-      preLoaderRoute: typeof AccountDashboardRecipeEditRecipeIdImport
+    '/account/_dashboard/recipe/$recipeId': {
+      preLoaderRoute: typeof AccountDashboardRecipeRecipeIdImport
       parentRoute: typeof AccountDashboardImport
     }
   }
@@ -124,10 +124,10 @@ export const routeTree = rootRoute.addChildren([
   LoginRoute,
   AccountRoute.addChildren([
     AccountDashboardRoute.addChildren([
+      AccountDashboardNewRecipeRoute,
       AccountDashboardSavedRoute,
       AccountDashboardIndexRoute,
-      AccountDashboardRecipeNewRoute,
-      AccountDashboardRecipeEditRecipeIdRoute,
+      AccountDashboardRecipeRecipeIdRoute,
     ]),
   ]),
 ])
