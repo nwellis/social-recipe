@@ -5,7 +5,7 @@ import AddRecipeButton from 'components/recipe/AddRecipeButton'
 import { ApiClient } from 'lib/ApiClient'
 import { querySelf } from 'lib/queries/UserQueries'
 
-export const Route = createFileRoute('/_dashboard/account')({
+export const Route = createFileRoute('/account/_dashboard/')({
   component: Account
 })
 

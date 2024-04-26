@@ -3,7 +3,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { queryRecipe } from 'lib/queries/RecipeQueries'
 
-export const Route = createFileRoute('/_dashboard/recipe/edit/$recipeId')({
+export const Route = createFileRoute('/account/_dashboard/recipe/edit/$recipeId')({
   component: Recipe,
   loader: ({ context, params }) => {
     return context.queryClient.ensureQueryData(queryRecipe(params.recipeId))

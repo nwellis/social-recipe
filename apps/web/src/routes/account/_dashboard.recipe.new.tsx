@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import RecipeForm from 'components/recipe/RecipeForm'
 
-export const Route = createFileRoute('/_dashboard/recipe/new')({
+export const Route = createFileRoute('/account/_dashboard/recipe/new')({
   component: Recipe
 })
 

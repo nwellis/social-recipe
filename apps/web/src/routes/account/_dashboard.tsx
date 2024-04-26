@@ -3,7 +3,7 @@ import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 import Breadcrumbs from 'components/nav/Breadcrumbs'
 import { isAuthenticatedOrRedirect } from 'lib/Auth'
 
-export const Route = createFileRoute('/_dashboard')({
+export const Route = createFileRoute('/account/_dashboard')({
   beforeLoad: isAuthenticatedOrRedirect,
   component: LayoutComponent,
 })
@@ -25,7 +25,7 @@ function LayoutComponent() {
               <li>
                 <Link
                   className='btn btn-ghost btn-sm w-20'
-                  to={'/saved'}
+                  to={'/account/saved'}
                 >
                   Saved
                 </Link>
