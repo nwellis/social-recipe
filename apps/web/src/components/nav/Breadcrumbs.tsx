@@ -41,10 +41,11 @@ export default function Breadcrumbs({
       )}
       {...rest}
     >
-      <ul>
+      <ul className='text-black'>
+        <li aria-hidden />
         {breadcrumbs.map((breadcrumb) => (
           <li key={breadcrumb.routeId}>
-            <Link to={breadcrumb.path} className='text-primary'>{breadcrumb.title}</Link>
+            <Link to={breadcrumb.path} className='font-semibold'>{breadcrumb.title}</Link>
           </li>
         ))}
       </ul>

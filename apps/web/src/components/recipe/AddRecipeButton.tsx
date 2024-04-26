@@ -12,7 +12,7 @@ export default function AddRecipeButton({
 }: AddRecipeButtonProps) {
   return (
     <Link
-      to={'/account/recipe/new'}
+      to={'/account/new-recipe'}
       className={cn(
         'btn flex flex-col justify-center items-center border border-dashed border-primary text-muted-more',
         className,

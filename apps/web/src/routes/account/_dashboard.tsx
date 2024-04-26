@@ -15,9 +15,9 @@ function LayoutComponent() {
 
       <header className='w-full border-b border-divider bg-base-100'>
         <div className='container navbar'>
-          <div className='flex-1 flex gap-2'>
+          <div className='flex-1 flex'>
             <Link to='/' className='btn btn-ghost btn-sm text-xl text-primary'>Recipes</Link>
-            <Breadcrumbs />
+            <Breadcrumbs className='mt-0.5' />
           </div>
 
           <div className='flex-none'>
