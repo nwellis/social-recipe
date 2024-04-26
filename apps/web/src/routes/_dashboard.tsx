@@ -1,5 +1,6 @@
 import { Icon } from '@acme/ui/components'
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
+import Breadcrumbs from 'components/nav/Breadcrumbs'
 import { isAuthenticatedOrRedirect } from 'lib/Auth'
 
 export const Route = createFileRoute('/_dashboard')({
@@ -14,8 +15,9 @@ function LayoutComponent() {
 
       <header className='w-full border-b border-divider bg-base-100'>
         <div className='container navbar'>
-          <div className='flex-1'>
+          <div className='flex-1 flex gap-2'>
             <Link to='/' className='btn btn-ghost btn-sm text-xl text-primary'>Recipes</Link>
+            <Breadcrumbs />
           </div>
 
           <div className='flex-none'>

@@ -5,13 +5,16 @@ import {
 import { QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
-export const Route = createRootRouteWithContext<{
+export interface AppRouterContext {
   queryClient: QueryClient
-}>()({
+}
+
+export const Route = createRootRouteWithContext<AppRouterContext>()({
   component: RootComponent,
 })
 
 function RootComponent() {
+
   return (
     <>
       <Outlet />
