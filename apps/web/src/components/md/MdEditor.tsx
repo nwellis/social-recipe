@@ -6,7 +6,7 @@ import {
   RealmPlugin
 } from '@mdxeditor/editor'
 import '@mdxeditor/editor/style.css'
-import './md.css'
+import './MdEditor.css'
 
 export type MdEditorProps = {
   hideToolbar?: boolean
@@ -39,7 +39,7 @@ export default function MdEditor({
   return (
     <MDXEditor
       className={cn(
-        'md bg-base-100 textarea-bordered border rounded-xl',
+        'md bg-base-100 textarea-bordered border rounded-btn',
         // 'md bg-base-100 border border-base-content border-opacity-20 rounded-xl',
       )}
       contentEditableClassName='text-base-content'

@@ -1,0 +1,78 @@
+/* See https://daisyui.com/docs/colors/ */
+/* See https://mdxeditor.dev/editor/docs/theming */
+
+.md {
+
+  --accentBase: none;
+  --accentBgSubtle: none;
+  --accentBg: none;
+  --accentBgHover: none;
+  --accentBgActive: none;
+  --accentLine: none;
+  --accentBorder: none;
+  --accentBorderHover: none;
+  --accentSolid: none;
+  --accentSolidHover: none;
+  --accentText: none;
+  --accentTextContrast: none;
+
+  --baseBase: none;
+  --baseBgSubtle: none;
+  --baseBg: none;
+  --baseBgHover: none;
+  --baseBgActive: none;
+  --baseLine: none;
+  --baseBorder: none;
+  --baseBorderHover: none;
+  --baseSolid: none;
+  --baseSolidHover: none;
+  --baseText: none;
+  --baseTextContrast: none;
+
+  color: oklch(var(--bc));
+  --basePageBg: oklch(var(--b1));
+  background: var(--basePageBg);
+
+  /* --admonitionTipBg: var(--cyan4);
+  --admonitionTipBorder: var(--cyan8);
+  
+  --admonitionInfoBg: var(--grass4);
+  --admonitionInfoBorder: var(--grass8);
+
+  --admonitionCautionBg: var(--amber4);
+  --admonitionCautionBorder: var(--amber8);
+
+  --admonitionDangerBg: var(--red4);
+  --admonitionDangerBorder: var(--red8);
+
+  --admonitionNoteBg: var(--mauve-4);
+  --admonitionNoteBorder: var(--mauve-8); */
+
+  h1 {
+    @apply text-2xl font-bold;
+  }
+  h2 {
+    @apply text-xl font-bold;
+  }
+  h3 {
+    @apply text-base font-semibold;
+  }
+  ul {
+    @apply list-disc list-inside;
+  }
+  ol {
+    @apply list-decimal list-inside;
+  }
+  checkbox {
+    @apply checkbox-primary;
+  }
+  button {
+    @apply btn btn-sm btn-ghost;
+  }
+  div[role="option"] {
+    @apply btn btn-sm btn-ghost m-1;
+  }
+  blockquote {
+    @apply border-l-4 border-base-content px-2;
+  }
+}
