@@ -38,7 +38,7 @@ export const recipeRouter = t.router({
 
   createRecipe: protectedProcedure
     .input(ResourceSchema)
-    .query(async (opts) => {
+    .mutation(async (opts) => {
       return RecipeService.Instance().createRecipe({
         publishedAt: 0,
         orgId: opts.ctx.session.orgId,
@@ -55,7 +55,7 @@ export const recipeRouter = t.router({
 
   deleteRecipe: protectedProcedure
     .input(z.string())
-    .query(async (opts) => {
+    .mutation(async (opts) => {
       const recipe = await RecipeService.Instance().getRecipe(opts.input)
       procedureAssert(recipe, 'NOT_FOUND')
       procedureAssert(recipe.orgId === opts.ctx.session.orgId, 'FORBIDDEN')

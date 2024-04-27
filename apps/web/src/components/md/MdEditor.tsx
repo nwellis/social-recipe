@@ -1,23 +1,25 @@
 import { cn } from '@acme/ui/util'
 import {
-  MDXEditor, type MDXEditorProps, headingsPlugin, listsPlugin, toolbarPlugin,
+  MDXEditor, type MDXEditorProps, headingsPlugin, listsPlugin, toolbarPlugin, quotePlugin,
   BlockTypeSelect, BoldItalicUnderlineToggles, ListsToggle, UndoRedo,
-  quotePlugin,
-  RealmPlugin
 } from '@mdxeditor/editor'
+import type { MDXEditorMethods, RealmPlugin } from '@mdxeditor/editor'
 import '@mdxeditor/editor/style.css'
 import './MdEditor.css'
+import { forwardRef } from 'react'
 
 export type MdEditorProps = {
   hideToolbar?: boolean
 } & MDXEditorProps
 
-export default function MdEditor({
-  hideToolbar,
-  className,
-  ...rest
-}: MdEditorProps) {
-
+const MdEditor = forwardRef<MDXEditorMethods, MdEditorProps>((
+  {
+    hideToolbar,
+    className,
+    ...rest
+  },
+  ref,
+) => {
   const plugins = Array.of(
     listsPlugin(),
     headingsPlugin(),
@@ -38,13 +40,17 @@ export default function MdEditor({
 
   return (
     <MDXEditor
+      ref={ref}
       className={cn(
         'md bg-base-100 textarea-bordered border rounded-btn',
-        // 'md bg-base-100 border border-base-content border-opacity-20 rounded-xl',
+        className,
       )}
       contentEditableClassName='text-base-content border-t border-t-base-content border-opacity-20'
       plugins={plugins}
       {...rest}
     />
   )
-}
+})
+MdEditor.displayName = 'MdEditor'
+
+export default MdEditor
