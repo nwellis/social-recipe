@@ -24,13 +24,13 @@ export default function MdEditor({
     quotePlugin(),
     hideToolbar ? undefined : toolbarPlugin({
       toolbarContents: () => (
-        <>
+        <div className='flex flex-wrap'>
           {' '}
           <UndoRedo />
+          <BlockTypeSelect />
           <BoldItalicUnderlineToggles />
           <ListsToggle />
-          <BlockTypeSelect />
-        </>
+        </div>
       )
     }),
     ...(rest.plugins || [])
