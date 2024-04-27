@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { cn } from '@acme/ui/util'
 import { Label } from '@acme/ui/components'
 import { Recipe } from '@acme/core'
-import { MDXEditor, headingsPlugin, listsPlugin } from '@mdxeditor/editor'
+import MdEditor from 'components/md/MdEditor'
 
 export type RecipeFormProps = {
   initial?: Partial<Recipe>
@@ -39,12 +39,9 @@ export default function RecipeForm({
         />
       </Label>
 
-      <MDXEditor
-        plugins={[
-          listsPlugin(),
-          headingsPlugin(),
-        ]}
-        markdown='MARKDOWN'
+      <MdEditor
+        className=' rounded-xl input-bordered'
+        markdown={'# Hello World\n- List Item 1\n- List Item 2\n## Subheading\n'}
       />
     </form>
   )
