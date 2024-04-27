@@ -42,7 +42,7 @@ export default function MdEditor({
         'md bg-base-100 textarea-bordered border rounded-btn',
         // 'md bg-base-100 border border-base-content border-opacity-20 rounded-xl',
       )}
-      contentEditableClassName='text-base-content'
+      contentEditableClassName='text-base-content border-t border-t-base-content border-opacity-20'
       plugins={plugins}
       {...rest}
     />
