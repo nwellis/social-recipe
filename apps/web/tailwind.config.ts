@@ -18,6 +18,11 @@ const config: Config = {
   plugins: [daisyui],
   daisyui: {
     themes: [
+      'corporate',
+      'cmyk',
+      'dracula',
+      'business',
+      'sunset',
       {
         standard: {
           "primary": "#be123c",

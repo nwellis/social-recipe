@@ -41,7 +41,7 @@ export default function Breadcrumbs({
       )}
       {...rest}
     >
-      <ul className='text-black'>
+      <ul className='text-base-content'>
         <li aria-hidden />
         {breadcrumbs.map((breadcrumb) => (
           <li key={breadcrumb.routeId}>

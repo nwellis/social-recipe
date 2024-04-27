@@ -33,7 +33,7 @@ function Account() {
         <p className='font-semibold text-lg'>{self?.email || self?._id}</p>
 
         <button
-          className='btn btn-primary btn-sm w-32'
+          className='btn btn-accent w-32'
           onClick={() => (document.getElementById('_dashboard-logout') as HTMLDialogElement)?.showModal()}
         >
           <Icon name='Exit' />
@@ -41,7 +41,7 @@ function Account() {
         </button>
       </div>
 
-      <div className='card flex flex-col bg-white shadow-xl p-4 min-h-64 gap-4'>
+      <div className='flex flex-col min-h-64 gap-4'>
         <h1 className='font-bold text-3xl text-primary'>Your Recipes</h1>
         <div className='flex-1 flex flex-wrap gap-4'>
           <AddRecipeButton className='h-full text-xl' />
@@ -49,7 +49,7 @@ function Account() {
 
       </div>
 
-      <div className='card flex flex-col bg-white shadow-xl p-4 min-h-64 gap-4'>
+      <div className='flex flex-col min-h-64 gap-4'>
         <h1 className='font-bold text-3xl text-primary'>Saved Recipes</h1>
         <div className='flex-1 flex flex-wrap gap-4'>
 
