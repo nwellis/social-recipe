@@ -70,6 +70,7 @@ export default function RecipeForm({
         </button>
       </div>
 
+      {/** TODO: Offer two ways to input this. Simple/quick vs. Markdown */}
       <MdEditor
         ref={instructionsRef}
         markdown={recipe.instructions ?? ''}
