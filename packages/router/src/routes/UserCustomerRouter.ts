@@ -27,16 +27,30 @@ export const userCustomerRouter = t.router({
     }),
 
   addSavedRecipe: protectedProcedure
-    .input(z.string())
+    .input(z.object({
+      tags: z.array(z.string()).nonempty(),
+      recipeIds: z.array(z.string()),
+    }).required())
     .mutation(async (opts) => {
-      const savedRecipeIds = await UserCustomerService.Instance().addSavedRecipe(opts.ctx.user.id, opts.input)
+      const savedRecipeIds = await UserCustomerService.Instance().addSavedRecipe(
+        opts.ctx.user.id,
+        opts.input.tags,
+        opts.input.recipeIds,
+      )
       return savedRecipeIds
     }),
 
   removeSavedRecipe: protectedProcedure
-    .input(z.string())
+    .input(z.object({
+      tags: z.array(z.string()).nonempty(),
+      recipeIds: z.array(z.string()).nonempty(),
+    }))
     .mutation(async (opts) => {
-      const savedRecipeIds = await UserCustomerService.Instance().removeSavedRecipe(opts.ctx.user.id, opts.input)
+      const savedRecipeIds = await UserCustomerService.Instance().removeSavedRecipe(
+        opts.ctx.user.id,
+        opts.input.tags,
+        opts.input.recipeIds,
+      )
       return savedRecipeIds
     }),
 })

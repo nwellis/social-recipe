@@ -11,6 +11,6 @@ export interface User extends ServerEntityManaged {
 }
 
 export interface UserCustomer extends User {
-  savedRecipeIds: string[]
+  savedRecipeTagIds: Record<string, string[]>
 }
 export interface UserAdmin extends User { }

@@ -1,6 +1,6 @@
 import { initTRPC } from '@trpc/server';
 import { ZodError } from 'zod';
-import { AppRouterContext } from './AppRouterContext.js';
+import { AppRouterContext, AppRouterContextWithSession } from './AppRouterContext.js';
 import { procedureAssert } from './util/Procedure.js';
 
 export const t = initTRPC.context<AppRouterContext>().create({
@@ -21,7 +21,7 @@ export const t = initTRPC.context<AppRouterContext>().create({
 
 export const publicProcedure = t.procedure
 
-export const protectedProcedure = t.procedure.use(
+export const protectedProcedure = t.procedure.use<AppRouterContextWithSession>(
   function isAuthed(opts) {
     procedureAssert(opts.ctx.session, 'UNAUTHORIZED')
     return opts.next(opts);

@@ -72,7 +72,9 @@ export async function mkAuthForCustomerGitHubRouter() {
     const { user, org } = await userService.createUser({
       email: githubUser.email,
       emailVerified: Boolean(githubUser.email),
-      savedRecipeIds: [],
+      savedRecipeTagIds: {
+        'Favorites': []
+      },
     })
     await oauthService.createOAuthAccount(user._id, {
       providerId: 'GitHub',

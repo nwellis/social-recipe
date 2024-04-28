@@ -20,3 +20,7 @@ export async function createAppRouterContext({
 }
 
 export type AppRouterContext = Awaited<ReturnType<typeof createAppRouterContext>>;
+export type AppRouterContextWithSession = Omit<AppRouterContext, 'session' | 'user'> & {
+  session: NonNullable<AppRouterContext['session']>,
+  user: NonNullable<AppRouterContext['user']>,
+};
