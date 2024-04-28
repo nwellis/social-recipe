@@ -1,7 +1,7 @@
 import { OrganizationService, UserCustomerService } from "@acme/server";
 import { protectedProcedure } from "../TRPC.js";
 import { t } from "../TRPC.js";
-import { procedureAssert, procedureAssertDefined } from "../util/Procedure.js";
+import { procedureAssert, procedureAssertNonNull } from "../util/Procedure.js";
 import { z } from "zod";
 
 export const userCustomerRouter = t.router({
@@ -11,7 +11,7 @@ export const userCustomerRouter = t.router({
       procedureAssert(user, 'NOT_FOUND')
 
       const organizations = await OrganizationService.Instance().getOrgs({ userId: opts.ctx.user.id })
-      const organization = procedureAssertDefined(organizations.at(0), 'INTERNAL_SERVER_ERROR')
+      const organization = procedureAssertNonNull(organizations.at(0), 'INTERNAL_SERVER_ERROR')
 
       return {
         ...user,

@@ -7,7 +7,7 @@ export const procedureAssert = (condition: any, error: TRPCError | TRPC_ERROR_CO
   }
 }
 
-export const procedureAssertDefined = <T>(value: T, error: TRPCError | TRPC_ERROR_CODE_KEY): NonNullable<T> => {
+export const procedureAssertNonNull = <T>(value: T, error: TRPCError | TRPC_ERROR_CODE_KEY): NonNullable<T> => {
   procedureAssert(value, error);
   return value as NonNullable<T>;
 }
