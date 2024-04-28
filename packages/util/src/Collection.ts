@@ -6,6 +6,10 @@ export function withType<TElement extends { __type: string }, TType extends TEle
   return elements.filter(element => element.__type === type) as Extract<TElement, { __type: TType }>[]
 }
 
+export function arraySet<T extends bigint | number | boolean | string | symbol>(array: T[]) {
+  return Array.from(new Set(array))
+}
+
 export function chunkArray<T>(array: T[], chunkSize: number) {
   if (!array) return []
   if (chunkSize < 1) return [array]

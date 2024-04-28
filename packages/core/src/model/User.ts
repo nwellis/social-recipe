@@ -10,5 +10,7 @@ export interface User extends ServerEntityManaged {
   emailVerified: boolean
 }
 
-export interface UserCustomer extends User { }
+export interface UserCustomer extends User {
+  savedRecipeIds: string[]
+}
 export interface UserAdmin extends User { }

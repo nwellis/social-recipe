@@ -4,6 +4,7 @@ import { UserCustomerStore } from "../../store/UserCustomerStore.js";
 import { generateId } from "lucia";
 import { OrganizationService } from "../org/OrganizationService.js";
 import { FolderService } from "../folder/FolderService.js";
+import { arraySet } from '@acme/util';
 
 export class UserCustomerService {
 
@@ -29,6 +30,7 @@ export class UserCustomerService {
 
   async createUser(payload: Omit<UserCustomer, keyof ServerEntityManaged>) {
     const user: UserCustomer = {
+      savedRecipeIds: [],
       ...payload,
       _id: this.createUserId(),
       __schema: 1,
@@ -74,5 +76,28 @@ export class UserCustomerService {
     ])
 
     return { org, folder }
+  }
+
+  async addSavedRecipe(userId: string, recipeId: string) {
+    const user = await this.user.findOne(userId)
+    const next = arraySet(user.savedRecipeIds.concat(recipeId))
+    // TODO-perf: Buried behind this abstraction is Mongo's $addToSet which would be handy
+    await this.user.patch(
+      userId,
+      { savedRecipeIds: next },
+      { __version: user.__version }
+    );
+    return next
+  }
+
+  async removeSavedRecipe(userId: string, recipeId: string) {
+    const user = await this.user.findOne(userId)
+    const next = user.savedRecipeIds.filter(id => id !== recipeId)
+    await this.user.patch(
+      userId,
+      { savedRecipeIds: next },
+      { __version: user.__version }
+    );
+    return next
   }
 }

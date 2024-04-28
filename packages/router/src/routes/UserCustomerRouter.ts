@@ -26,4 +26,18 @@ export const userCustomerRouter = t.router({
       procedureAssert(user, 'NOT_FOUND')
       return user
     }),
+
+  addSavedRecipe: protectedProcedure
+    .input(z.string())
+    .mutation(async (opts) => {
+      const savedRecipeIds = await UserCustomerService.Instance().addSavedRecipe(opts.ctx.user.id, opts.input)
+      return savedRecipeIds
+    }),
+
+  removeSavedRecipe: protectedProcedure
+    .input(z.string())
+    .mutation(async (opts) => {
+      const savedRecipeIds = await UserCustomerService.Instance().removeSavedRecipe(opts.ctx.user.id, opts.input)
+      return savedRecipeIds
+    }),
 })
