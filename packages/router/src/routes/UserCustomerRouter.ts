@@ -21,7 +21,6 @@ export const userCustomerRouter = t.router({
   getUser: protectedProcedure
     .input(z.string())
     .query(async (opts) => {
-
       const user = UserCustomerService.Instance().getUser(opts.input)
       procedureAssert(user, 'NOT_FOUND')
       return user
