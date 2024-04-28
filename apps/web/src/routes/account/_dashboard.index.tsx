@@ -1,8 +1,11 @@
 import { AlertDialog, Icon } from '@acme/ui/components'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { numberRange } from '@acme/util'
+import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import AddRecipeButton from 'components/recipe/AddRecipeButton'
+import RecipePreview from 'components/recipe/RecipePreview'
 import { ApiClient } from 'lib/ApiClient'
+import { queryRecipes } from 'lib/queries/RecipeQueries'
 import { querySelf } from 'lib/queries/UserQueries'
 
 export const Route = createFileRoute('/account/_dashboard/')({
@@ -12,7 +15,8 @@ export const Route = createFileRoute('/account/_dashboard/')({
 function Account() {
 
   const navigate = useNavigate()
-  const { data: self } = useQuery(querySelf)
+  const { data: self } = useSuspenseQuery(querySelf)
+  const { data: recipes = [], isPending: isPendingRecipes } = useQuery(queryRecipes(self.organization._id))
   const { mutate: logout } = useMutation({
     mutationFn: ApiClient.auth.deleteSession.mutate,
     onSettled: () => navigate({ to: '/login', replace: true }),
@@ -45,8 +49,13 @@ function Account() {
         <h1 className='font-bold text-3xl text-primary'>Your Recipes</h1>
         <div className='flex-1 flex flex-wrap gap-4'>
           <AddRecipeButton className='h-full text-xl' />
+          {recipes.map(recipe => (
+            <RecipePreview key={recipe._id} recipe={recipe} />
+          ))}
+          {isPendingRecipes && numberRange(3).map(i => (
+            <div key={i} className='w-64 h-64 bg-base-200 rounded-lg animate-pulse' />
+          ))}
         </div>
-
       </div>
 
       <div className='flex flex-col min-h-64 gap-4'>

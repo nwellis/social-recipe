@@ -7,3 +7,10 @@ export const queryRecipe = (recipeId: string) => queryOptions({
   retry: 0,
   enabled: Boolean(recipeId),
 })
+
+export const queryRecipes = (orgId: string) => queryOptions({
+  queryKey: ['recipes', orgId],
+  queryFn: async () => ApiClient.recipe.getRecipes.query({ orgId }),
+  retry: 0,
+  enabled: Boolean(orgId),
+})
