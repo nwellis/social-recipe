@@ -4,7 +4,7 @@ import { Link, useRouter } from '@tanstack/react-router';
 
 export type BreadcrumbsProps = {
 
-} & React.ComponentProps<'div'>
+} & React.ComponentPropsWithoutRef<'div'>
 
 const normalizeFileRouteId = (routeId: string) => {
   return routeId.split('-')

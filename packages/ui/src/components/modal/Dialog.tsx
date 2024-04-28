@@ -3,7 +3,7 @@ import { cn } from '@acme/ui/util'
 
 export type DialogProps = {
   blocking?: boolean
-} & React.ComponentProps<'dialog'>
+} & React.ComponentPropsWithoutRef<'dialog'>
 
 export function Dialog({
   blocking,

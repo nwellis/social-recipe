@@ -2,7 +2,7 @@ import { cn } from "../util/CSS.js"
 
 export type ButtonProps = {
 
-} & React.ComponentProps<'button'>
+} & React.ComponentPropsWithoutRef<'button'>
 
 export function Button({
   children,

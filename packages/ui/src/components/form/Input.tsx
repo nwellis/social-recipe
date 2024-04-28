@@ -3,7 +3,7 @@ import { cn } from "../../util/CSS.js"
 export type InputProps = {
   text?: string
   color?: 'primary' | 'accent' | 'info' | 'success' | 'warning' | 'error'
-} & React.ComponentProps<'input'>
+} & React.ComponentPropsWithoutRef<'input'>
 
 export function Input({
   text,

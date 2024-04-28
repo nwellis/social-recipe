@@ -16,7 +16,7 @@ const initialInstructions = `
 export type RecipeFormProps = {
   initial?: Partial<Recipe>
   onSuccess?: (updated: Recipe) => void
-} & React.ComponentProps<'form'>
+} & React.ComponentPropsWithoutRef<'form'>
 
 export default function RecipeForm({
   initial = {

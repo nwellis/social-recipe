@@ -3,7 +3,7 @@ import { cn } from "../../util/CSS.js"
 export type LabelProps = {
   text?: string
   error?: string
-} & React.ComponentProps<'label'>
+} & React.ComponentPropsWithoutRef<'label'>
 
 export function Label({
   text,

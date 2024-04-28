@@ -3,7 +3,7 @@ import { cn } from '@acme/ui/util'
 
 export type TemplateProps = {
 
-} & React.ComponentProps<'div'>
+} & React.ComponentPropsWithoutRef<'div'>
 
 export function Template({
   className,
