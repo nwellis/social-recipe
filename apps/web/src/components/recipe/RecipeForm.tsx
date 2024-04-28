@@ -32,6 +32,7 @@ export default function RecipeForm({
   const { mutate: updateRecipe } = useMutation({
     mutationFn: () => ApiClient.recipe.createRecipe.mutate({
       ...recipe,
+      title: recipe.title ?? '',
       instructions: instructionsRef.current?.getMarkdown() ?? '',
     }),
     onSuccess: rest.onSuccess
