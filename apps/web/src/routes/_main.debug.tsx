@@ -4,10 +4,10 @@ import { querySession } from 'lib/queries/AuthQueries'
 import { querySelf } from 'lib/queries/UserQueries'
 
 export const Route = createFileRoute('/_main/debug')({
-  component: () => Home,
+  component: Debug,
 })
 
-function Home() {
+function Debug() {
 
   const navigate = useNavigate()
   if (import.meta.env.MODE !== 'development') {

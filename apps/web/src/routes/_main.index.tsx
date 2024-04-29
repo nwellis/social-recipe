@@ -1,7 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-import { querySession } from 'lib/queries/AuthQueries'
-import { querySelf } from 'lib/queries/UserQueries'
 
 export const Route = createFileRoute('/_main/')({
   component: Home,
@@ -9,18 +6,13 @@ export const Route = createFileRoute('/_main/')({
 
 function Home() {
 
-  const { data: user, error } = useQuery(querySelf)
 
-  const { data: session } = useQuery(querySession)
 
   return (
-    <div className="container p-2">
-      <h3>Env</h3>
-      <pre className='w-fit bg-black font-semibold text-white rounded-lg p-2'>{JSON.stringify(import.meta.env, null, 2)}</pre>
-      <h3>Session</h3>
-      <pre className='w-fit bg-black font-semibold text-white rounded-lg p-2'>{JSON.stringify(session || user, null, 2)}</pre>
-      <h3>User</h3>
-      <pre className='w-fit bg-black font-semibold text-white rounded-lg p-2'>{JSON.stringify(error || user, null, 2)}</pre>
+    <div className="container py-4 sm:py-8 flex flex-col gap-4">
+      <h1 className='font-bold text-3xl'>Discover new recipes <span className='text-primary'>with ease</span></h1>
+      <p className='text-lg'>Easily find your next recipe with <span className='text-primary'>no advertisements</span>. No life story, just a recipe and simple instructions.</p>
+      <hr />
     </div>
   )
 }
