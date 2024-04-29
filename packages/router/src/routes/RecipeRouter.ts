@@ -48,8 +48,8 @@ export const recipeRouter = t.router({
         ingredients: [],
         tags: [],
         durationMinutes: 0,
-        serves: 0,
-        difficulty: 0,
+        serves: 2,
+        difficulty: 3,
       })
     }),
 

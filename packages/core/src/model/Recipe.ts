@@ -8,9 +8,9 @@ export interface Recipe extends ServerEntityManaged {
   title: string
   description: string
   instructions: string
-  ingredients: RecipeIngredient[]
+  ingredients: string[]
+  // ingredients: RecipeIngredient[]
   tags: string[]
-  // rating: number
   serves: number
   durationMinutes: number
   difficulty: number
