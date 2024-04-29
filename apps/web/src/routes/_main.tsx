@@ -9,7 +9,7 @@ export const Route = createFileRoute('/_main')({
 
 function LayoutComponent() {
 
-  const { data: session } = useQuery(querySession)
+  const { data: session, isPending: isLoadingSession } = useQuery(querySession)
 
   return (
     <div className='h-full grid grid-rows-header-footer'>
@@ -30,25 +30,18 @@ function LayoutComponent() {
                 </Link>
               </li>
               <li>
-                <Link
-                  className='btn btn-primary btn-sm w-32 flex gap-1'
-                  to={session ? '/account' : '/login'}
-                >
-                  <Icon name='User' />
-                  {session ? 'Profile' : 'Sign Up'}
-                </Link>
+                {isLoadingSession ? (
+                  <div className='btn btn-sm skeleton w-32' />
+                ) : (
+                  <Link
+                    className='btn btn-primary btn-sm w-32 flex gap-1'
+                    to={session ? '/account' : '/login'}
+                  >
+                    <Icon name='User' />
+                    {session ? 'Profile' : 'Sign Up'}
+                  </Link>
+                )}
               </li>
-              {/* <li>
-                <details>
-                  <summary>
-                    Parent
-                  </summary>
-                  <ul className='p-2 bg-base-100 rounded-t-none'>
-                    <li><a>Link 1</a></li>
-                    <li><a>Link 2</a></li>
-                  </ul>
-                </details>
-              </li> */}
             </ul>
           </div>
         </div>
