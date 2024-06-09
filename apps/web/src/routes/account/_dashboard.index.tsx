@@ -1,7 +1,7 @@
 import { AlertDialog, Icon } from '@acme/ui/components'
 import { numberRange } from '@acme/util'
 import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import AddRecipeButton from 'components/recipe/AddRecipeButton'
 import RecipePreview from 'components/recipe/RecipePreview'
 import { ApiClient } from 'lib/ApiClient'
@@ -50,7 +50,13 @@ function Account() {
         <div className='flex-1 flex flex-wrap gap-4'>
           <AddRecipeButton className='h-full text-xl' />
           {recipes.map(recipe => (
+            <Link 
+              className='h-full flex flex-col justify-center btn btn-ghost text-lg'
+              to='/account/recipe/$recipeId' 
+              params={{ recipeId: recipe._id }}
+              >
             <RecipePreview key={recipe._id} recipe={recipe} />
+            </Link>
           ))}
           {isPendingRecipes && numberRange(3).map(i => (
             <div key={i} className='w-64 h-64 bg-base-200 rounded-lg animate-pulse' />
