@@ -3,9 +3,10 @@ import { cn } from '@acme/ui/util'
 import { Label } from '@acme/ui/components'
 import { Recipe } from '@acme/core'
 import MdEditor from 'components/md/MdEditor'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ApiClient } from 'lib/ApiClient'
 import { MDXEditorMethods } from '@mdxeditor/editor'
+import { queryRecipe } from 'lib/queries/RecipeQueries'
 
 const initialInstructions = `
 # Instructions
@@ -27,15 +28,25 @@ export default function RecipeForm({
   ...rest
 }: RecipeFormProps) {
 
+  const queryClient = useQueryClient()
   const instructionsRef = useRef<MDXEditorMethods>(null)
   const [recipe, setRecipe] = useState<Partial<Recipe>>(initial)
   const { mutate: updateRecipe } = useMutation({
-    mutationFn: () => ApiClient.recipe.createRecipe.mutate({
-      ...recipe,
-      title: recipe.title ?? '',
-      instructions: instructionsRef.current?.getMarkdown() ?? '',
-    }),
-    onSuccess: rest.onSuccess
+    mutationFn: () => recipe._id
+      ? ApiClient.recipe.updateRecipe.mutate({
+        _id: recipe._id,
+        title: recipe.title ?? '',
+        instructions: instructionsRef.current?.getMarkdown() ?? '',
+      })
+      : ApiClient.recipe.createRecipe.mutate({
+        ...recipe,
+        title: recipe.title ?? '',
+        instructions: instructionsRef.current?.getMarkdown() ?? '',
+      }),
+    onSuccess: (updated) => {
+      queryClient.setQueryData(queryRecipe(updated._id).queryKey, updated)
+      rest.onSuccess?.(updated)
+    }
   })
 
   return (

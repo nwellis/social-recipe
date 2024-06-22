@@ -53,6 +53,25 @@ export const recipeRouter = t.router({
       })
     }),
 
+  updateRecipe: protectedProcedure
+    .input(ResourceSchema.extend({ _id: z.string() }))
+    .mutation(async (opts) => {
+      const { _id, ...patch } = opts.input
+      const recipe = await RecipeService.Instance().getRecipe(_id)
+      procedureAssert(recipe, 'NOT_FOUND')
+      procedureAssert(recipe.orgId === opts.ctx.session.orgId, 'FORBIDDEN')
+
+      await RecipeService.Instance().updateRecipe({
+        _id,
+        ...patch,
+      })
+
+      return {
+        ...recipe,
+        ...patch,
+      }
+    }),
+
   deleteRecipe: protectedProcedure
     .input(z.string())
     .mutation(async (opts) => {

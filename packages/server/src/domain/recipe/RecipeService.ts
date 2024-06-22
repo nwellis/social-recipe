@@ -3,6 +3,7 @@ import mem from "mem";
 import { generateId } from "lucia";
 import { RecipeSlugStore, RecipeStore } from "../../index.js";
 import { DatabasePaginator } from '../../db/DatabasePaginator.js';
+import { timestamps } from '@acme/util'
 
 export class RecipeService {
 
@@ -45,13 +46,19 @@ export class RecipeService {
       _id: this.createId(),
       __schema: 1,
       __version: 1,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      ...timestamps(Date.now(), 'createdAt', 'updatedAt'),
     }
 
     await this.recipe.set(recipe._id, recipe);
 
     return recipe;
+  }
+
+  async updateRecipe(payload: Partial<Recipe>) {
+    await this.recipe.patch(payload._id, {
+      ...payload,
+      ...timestamps(Date.now(), 'updatedAt'),
+    });
   }
 
   async deleteRecipe(id: string) {
