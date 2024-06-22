@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ApiClient } from 'lib/ApiClient'
 import { MDXEditorMethods } from '@mdxeditor/editor'
 import { queryRecipe } from 'lib/queries/RecipeQueries'
+import EntityManagedTimes from 'components/entity/EntityManagedTimes'
 
 const initialInstructions = `
 # Instructions
@@ -74,12 +75,16 @@ export default function RecipeForm({
           />
         </Label>
 
-        <button
-          type='submit'
-          className='btn btn-primary'
-        >
-          {initial._id ? 'Update' : 'Create'}
-        </button>
+        <div className='flex flex-row justify-between tablet:justify-normal gap-2'>
+          <EntityManagedTimes className='h-fit w-fit border-divider' entity={recipe} />
+
+          <button
+            type='submit'
+            className='btn btn-primary'
+          >
+            {initial._id ? 'Update' : 'Create'}
+          </button>
+        </div>
       </div>
 
       {/** TODO: Offer two ways to input this. Simple/quick vs. Markdown */}
