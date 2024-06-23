@@ -1,3 +1,7 @@
+import debounce from 'lodash.debounce'
+
+export { debounce }
+
 export function delay(ms: number) {
   return new Promise<void>(resolve => {
     setTimeout(resolve, ms)

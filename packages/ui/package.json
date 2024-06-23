@@ -6,7 +6,8 @@
   "exports": {
     "./tailwind.config": "./tailwind.config.ts",
     "./util": "./src/util/index.ts",
-    "./components": "./src/components/index.ts"
+    "./components": "./src/components/index.ts",
+    "./hooks": "./src/hooks/index.ts"
   },
   "scripts": {
     "lint": "eslint \"**/*.ts*\" --max-warnings 0"

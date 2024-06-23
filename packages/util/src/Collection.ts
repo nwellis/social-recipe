@@ -2,6 +2,9 @@ export declare type RecordKey = string | number | symbol;
 export declare type RecordValue<TRecord> = TRecord extends Record<any, infer TType> ? TType : never;
 export declare type PartialRecord<K extends RecordKey, V> = Partial<Record<K, V>>;
 
+type Lit = string | number | boolean | undefined | null | /*void |*/ {};
+export const tuple = <T extends Lit[]>(...args: T) => args;
+
 export function withType<TElement extends { __type: string }, TType extends TElement["__type"]>(elements: TElement[], type: TType): Extract<TElement, { __type: TType }>[] {
   return elements.filter(element => element.__type === type) as Extract<TElement, { __type: TType }>[]
 }

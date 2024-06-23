@@ -3,6 +3,7 @@ import { protectedProcedure, publicProcedure } from "../TRPC.js";
 import { t } from "../TRPC.js";
 import { procedureAssert } from "../util/Procedure.js";
 import { z } from "zod";
+import { RecipeQuery } from '@acme/core';
 
 const ResourceSchema = z.object({
   title: z.string()
@@ -34,6 +35,17 @@ export const recipeRouter = t.router({
     }))
     .query(async (opts) => {
       const recipes = await RecipeService.Instance().getOrganizationRecipes(opts.input.orgId)
+      return recipes
+    }),
+
+  searchPublishedRecipes: publicProcedure
+    .input(z.object({
+      search: z.string().optional(),
+      orgId: z.string().optional(),
+      next: z.string().optional(),
+    }) satisfies z.ZodSchema<RecipeQuery>)
+    .query(async (opts) => {
+      const recipes = await RecipeService.Instance().searchPublishedRecipes(opts.input)
       return recipes
     }),
 

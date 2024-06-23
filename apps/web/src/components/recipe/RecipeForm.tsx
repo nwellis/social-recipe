@@ -32,7 +32,7 @@ export default function RecipeForm({
   const queryClient = useQueryClient()
   const instructionsRef = useRef<MDXEditorMethods>(null)
   const [pending, setPending] = useState<Partial<Recipe>>(current)
-  const { mutate: updateRecipe, error } = useMutation({
+  const { mutate: updateRecipe } = useMutation({
     mutationFn: (updates: Partial<Recipe>) => current._id
       ? ApiClient.recipe.updateRecipe.mutate({
         _id: current._id,

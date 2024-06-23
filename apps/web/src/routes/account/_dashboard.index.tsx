@@ -5,7 +5,7 @@ import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import AddRecipeButton from 'components/recipe/AddRecipeButton'
 import RecipePreview from 'components/recipe/RecipePreview'
 import { ApiClient } from 'lib/ApiClient'
-import { queryRecipes } from 'lib/queries/RecipeQueries'
+import { queryOrgRecipes } from 'lib/queries/RecipeQueries'
 import { querySelf } from 'lib/queries/UserQueries'
 
 export const Route = createFileRoute('/account/_dashboard/')({
@@ -16,7 +16,7 @@ function Account() {
 
   const navigate = useNavigate()
   const { data: self } = useSuspenseQuery(querySelf)
-  const { data: recipes = [], isPending: isPendingRecipes } = useQuery(queryRecipes(self.organization._id))
+  const { data: recipes = [], isPending: isPendingRecipes } = useQuery(queryOrgRecipes(self.organization._id))
   const { mutate: logout } = useMutation({
     mutationFn: ApiClient.auth.deleteSession.mutate,
     onSettled: () => navigate({ to: '/login', replace: true }),
@@ -50,12 +50,12 @@ function Account() {
         <div className='flex-1 flex flex-wrap gap-4'>
           <AddRecipeButton className='h-full text-xl' />
           {recipes.map(recipe => (
-            <Link 
+            <Link
               className='h-full flex flex-col justify-center btn btn-ghost text-lg'
-              to='/account/recipe/$recipeId' 
+              to='/account/recipe/$recipeId'
               params={{ recipeId: recipe._id }}
-              >
-            <RecipePreview key={recipe._id} recipe={recipe} />
+            >
+              <RecipePreview key={recipe._id} recipe={recipe} />
             </Link>
           ))}
           {isPendingRecipes && numberRange(3).map(i => (

@@ -1,4 +1,4 @@
-import { DatabaseEntityStore, Recipe, RecipeSlug, ServerEntityManaged } from "@acme/core";
+import { DatabaseEntityStore, Recipe, RecipeQuery, RecipeSlug, ServerEntityManaged } from "@acme/core";
 import mem from "mem";
 import { generateId } from "lucia";
 import { RecipeSlugStore, RecipeStore } from "../../index.js";
@@ -26,18 +26,14 @@ export class RecipeService {
     return this.recipe.allWithOwner(orgId)
   }
 
-  async searchOrganizationRecipes(query: {
-    orgId: string,
-  }) {
-    return new DatabasePaginator(this.recipe)
-      .pageThroughAllWithOwner(query.orgId, {
-        $and: [
-        ].filter(Boolean)
-      })
-  }
-
-  async searchRecipes(query: {}) {
-    return this.recipe.search({})
+  async searchPublishedRecipes({ next, ...query }: RecipeQuery) {
+    return this.recipe.search({
+      orgId: query.orgId,
+      $and: [
+        { title: { $regex: query.search, $options: 'i' } },
+        { publishedAt: { $gt: 0 } },
+      ].filter(Boolean)
+    }, next)
   }
 
   async createRecipe(payload: Omit<Recipe, keyof ServerEntityManaged | "updatedAt">) {
