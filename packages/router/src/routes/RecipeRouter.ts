@@ -9,6 +9,7 @@ const ResourceSchema = z.object({
     .min(8, 'Title must be at least 8 characters')
     .max(100, 'Title must be less that 100 characters'),
   instructions: z.string().min(1, 'Please provide instructions'),
+  publishedAt: z.number().min(0).optional(),
 })
 
 export const recipeRouter = t.router({
@@ -54,7 +55,10 @@ export const recipeRouter = t.router({
     }),
 
   updateRecipe: protectedProcedure
-    .input(ResourceSchema.extend({ _id: z.string() }))
+    .input(ResourceSchema
+      .partial()
+      .extend({ _id: z.string() })
+    )
     .mutation(async (opts) => {
       const { _id, ...patch } = opts.input
       const recipe = await RecipeService.Instance().getRecipe(_id)

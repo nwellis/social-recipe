@@ -1,6 +1,7 @@
 export * from './Async.js';
 export * from './Collection.js';
 export * from './Condition.js';
+export * from './DayJs.js';
 export * from './Number.js';
 export * from './Paths.js';
 export * from './StrEnum.js';

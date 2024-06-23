@@ -16,12 +16,12 @@ const initialInstructions = `
 `
 
 export type RecipeFormProps = {
-  initial?: Partial<Recipe>
+  current?: Partial<Recipe>
   onSuccess?: (updated: Recipe) => void
 } & React.ComponentPropsWithoutRef<'form'>
 
 export default function RecipeForm({
-  initial = {
+  current = {
     title: '',
     instructions: initialInstructions,
   },
@@ -31,20 +31,21 @@ export default function RecipeForm({
 
   const queryClient = useQueryClient()
   const instructionsRef = useRef<MDXEditorMethods>(null)
-  const [recipe, setRecipe] = useState<Partial<Recipe>>(initial)
-  const { mutate: updateRecipe } = useMutation({
-    mutationFn: () => recipe._id
+  const [pending, setPending] = useState<Partial<Recipe>>(current)
+  const { mutate: updateRecipe, error } = useMutation({
+    mutationFn: (updates: Partial<Recipe>) => current._id
       ? ApiClient.recipe.updateRecipe.mutate({
-        _id: recipe._id,
-        title: recipe.title ?? '',
+        _id: current._id,
         instructions: instructionsRef.current?.getMarkdown() ?? '',
+        ...updates,
       })
       : ApiClient.recipe.createRecipe.mutate({
-        ...recipe,
-        title: recipe.title ?? '',
+        title: updates.title ?? '',
         instructions: instructionsRef.current?.getMarkdown() ?? '',
+        publishedAt: updates.publishedAt,
       }),
     onSuccess: (updated) => {
+      setPending(updated)
       queryClient.setQueryData(queryRecipe(updated._id).queryKey, updated)
       rest.onSuccess?.(updated)
     }
@@ -58,40 +59,75 @@ export default function RecipeForm({
       )}
       onSubmit={(e) => {
         e.preventDefault()
-        updateRecipe()
+        updateRecipe(pending)
       }}
       {...rest}
     >
       <div className='flex flex-col-reverse sm:flex-row justify-between gap-2'>
-        <Label
-          text='Recipe Name'
-        >
-          <input
-            type='text'
-            placeholder='Give this recipe a name'
-            className='input input-bordered w-full max-w-xs'
-            value={recipe.title}
-            onChange={e => setRecipe({ ...recipe, title: e.target.value })}
-          />
-        </Label>
+        <div className='flex flex-col gap-2'>
+          <Label text='Recipe Name'>
+            <input
+              type='text'
+              placeholder='Give this recipe a name'
+              className='input input-bordered w-full max-w-sm'
+              value={pending.title}
+              onChange={e => setPending({ ...pending, title: e.target.value })}
+            />
+          </Label>
+          {/* <div className="w-fit form-control">
+            <label className="cursor-pointer label flex gap-2">
+              <input
+                type="checkbox"
+                className="toggle toggle-primary"
+                checked={Boolean(pending.publishedAt)}
+                onChange={() => setPending({
+                  ...pending,
+                  publishedAt: pending.publishedAt ? 0 : Date.now()
+                })}
+              />
+              <span className="label-text">Publish</span>
+            </label>
+          </div> */}
+        </div>
 
-        <div className='flex flex-row justify-between tablet:justify-normal gap-2'>
-          <EntityManagedTimes className='h-fit w-fit border-divider' entity={recipe} />
+        <div className='tablet:flex-1' />
 
-          <button
-            type='submit'
-            className='btn btn-primary'
-          >
-            {initial._id ? 'Update' : 'Create'}
-          </button>
+        <div className='tablet:w-60 flex flex-col gap-2'>
+          <div className='w-full flex flex-row gap-4'>
+            <button
+              type='submit'
+              className='flex-1 btn btn-primary'
+            >
+              {current._id ? 'Update' : 'Create'}
+            </button>
+            <button
+              type='button'
+              disabled={!current._id}
+              className={cn(
+                'btn btn-outline',
+                current.publishedAt ? 'btn-success' : 'btn-error'
+              )}
+              onClick={() => updateRecipe({
+                publishedAt: current.publishedAt ? 0 : Date.now()
+              })}
+            >
+              {current.publishedAt ? 'Published' : 'Publish'}
+            </button>
+          </div>
+
+          <EntityManagedTimes className='h-fit w-fit' entity={pending} />
         </div>
       </div>
 
       {/** TODO: Offer two ways to input this. Simple/quick vs. Markdown */}
       <MdEditor
         ref={instructionsRef}
-        markdown={recipe.instructions ?? ''}
+        markdown={pending.instructions ?? ''}
       />
+
+      <pre>
+        {JSON.stringify(current, null, 2)}
+      </pre>
     </form>
   )
 }

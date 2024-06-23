@@ -17,8 +17,7 @@ function Recipe() {
 
   return (
     <div className="h-full container flex flex-col gap-8 py-8">
-      <p>{recipeId}</p>
-      <RecipeForm initial={recipe} />
+      <RecipeForm current={recipe} />
     </div>
   )
 }
