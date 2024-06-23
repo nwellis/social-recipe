@@ -77,15 +77,10 @@ export const recipeRouter = t.router({
       procedureAssert(recipe, 'NOT_FOUND')
       procedureAssert(recipe.orgId === opts.ctx.session.orgId, 'FORBIDDEN')
 
-      await RecipeService.Instance().updateRecipe({
+      return await RecipeService.Instance().updateRecipe({
         _id,
         ...patch,
       })
-
-      return {
-        ...recipe,
-        ...patch,
-      }
     }),
 
   deleteRecipe: protectedProcedure

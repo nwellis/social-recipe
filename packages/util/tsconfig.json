@@ -2,7 +2,7 @@
   "extends": "@acme/typescript-config/base.json",
   "compilerOptions": {
     "lib": [
-      "ES2015"
+      "ES2021"
     ],
     "outDir": "./dist",
     "rootDir": "./src"

@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { queryInfinitePublishedRecipes } from 'lib/queries/RecipeQueries'
 import { useDebounceValue } from '@acme/ui/hooks'
 import { cn } from '@acme/ui/util'
+import { Icon } from '@acme/ui/components'
 
 export const Route = createFileRoute('/_main/')({
   component: Home,
@@ -10,19 +12,26 @@ export const Route = createFileRoute('/_main/')({
 
 function Home() {
 
-  const [search, _setSearch] = useDebounceValue("", 600)
+  const [search, setSearch] = useState("")
+  const [debouncedSearch] = useDebounceValue(search, 600)
   const {
     isFetching, isFetchingNextPage, hasNextPage, fetchNextPage, data: results,
-  } = useInfiniteQuery(queryInfinitePublishedRecipes({ search }))
+  } = useInfiniteQuery(queryInfinitePublishedRecipes({ search: debouncedSearch }))
 
   return (
     <div className="container py-4 sm:py-8 flex flex-col gap-4">
       <h1 className='font-bold text-3xl'>Discover new recipes <span className='text-primary'>with ease</span></h1>
       <p className='text-lg'>Easily find your next recipe with <span className='text-primary'>no advertisements</span>. No life story, just a recipe and simple instructions.</p>
-      <hr />
-      <input
-
-      />
+      <hr /><label className="input input-bordered flex items-center gap-2 max-w-xs">
+        <Icon name="MagnifyingGlass" />
+        <input
+          type="text"
+          className="grow"
+          placeholder="Search all recipes…"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+      </label>
       <hr />
       <ul className="flex flex-col items-center self-stretch text-sm">
         {results?.pages.flatMap(page => page.entities).map(recipe => {

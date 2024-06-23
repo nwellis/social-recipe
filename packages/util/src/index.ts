@@ -5,5 +5,6 @@ export * from './DayJs.js';
 export * from './Number.js';
 export * from './Paths.js';
 export * from './StrEnum.js';
+export * from './String.js';
 export * from './Time.js';
 export * from './UrlSlugValidator.js';

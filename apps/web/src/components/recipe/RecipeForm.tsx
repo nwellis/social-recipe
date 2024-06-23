@@ -46,6 +46,7 @@ export default function RecipeForm({
       }),
     onSuccess: (updated) => {
       setPending(updated)
+      console.debug(`UPDATING`, queryRecipe(updated._id).queryKey, updated)
       queryClient.setQueryData(queryRecipe(updated._id).queryKey, updated)
       rest.onSuccess?.(updated)
     }

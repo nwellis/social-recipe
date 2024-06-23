@@ -5,6 +5,7 @@ import {
   faCircleUser, faTrashCan,
 } from '@fortawesome/free-regular-svg-icons';
 import {
+  faMagnifyingGlass,
   faRightFromBracket, faThumbTack, faUtensils
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,9 +14,10 @@ import {
  */
 export const AppFontAwesomeIcons = {
   Exit: faRightFromBracket,
+  GitHub: faGithub,
+  MagnifyingGlass: faMagnifyingGlass,
   ThumbTack: faThumbTack,
   Trash: faTrashCan,
-  GitHub: faGithub,
   User: faCircleUser,
   Utensils: faUtensils,
 }
