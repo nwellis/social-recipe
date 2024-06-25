@@ -8,6 +8,7 @@ import { ApiClient } from 'lib/ApiClient'
 import { MDXEditorMethods } from '@mdxeditor/editor'
 import { queryRecipe } from 'lib/queries/RecipeQueries'
 import EntityManagedTimes from 'components/entity/EntityManagedTimes'
+import { useDropzone } from '@acme/ui/hooks'
 
 const initialInstructions = `
 # Instructions
@@ -46,11 +47,12 @@ export default function RecipeForm({
       }),
     onSuccess: (updated) => {
       setPending(updated)
-      console.debug(`UPDATING`, queryRecipe(updated._id).queryKey, updated)
       queryClient.setQueryData(queryRecipe(updated._id).queryKey, updated)
       rest.onSuccess?.(updated)
     }
   })
+
+  const { getRootProps, getInputProps, isDragActive} = useDropzone()
 
   return (
     <form
@@ -118,6 +120,21 @@ export default function RecipeForm({
 
           <EntityManagedTimes className='h-fit w-fit' entity={pending} />
         </div>
+      </div>
+
+      <div
+        className={cn(
+          'min-h-24 flex justify-center items-center text-xl',
+          'border border-dashed border-neutral-content rounded-xl',
+        )}
+        {...getRootProps()}
+      >
+        <input {...getInputProps()} />
+        {
+          isDragActive ?
+            <p>Drop an image here ...</p> :
+            <p>Drag 'n' drop some files here, or click to select files</p>
+        }
       </div>
 
       {/** TODO: Offer two ways to input this. Simple/quick vs. Markdown */}
