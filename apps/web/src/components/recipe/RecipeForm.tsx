@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { cn } from '@acme/ui/util'
 import { Label } from '@acme/ui/components'
 import { Recipe } from '@acme/core'
@@ -52,7 +52,24 @@ export default function RecipeForm({
     }
   })
 
-  const { getRootProps, getInputProps, isDragActive} = useDropzone()
+  const [images, setImages] = useState<(File & { preview: string })[]>([])
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    maxFiles: 1,
+    accept: {
+      'image/jpeg': [],
+      'image/png': []
+    },
+    onDrop: acceptedFiles => {
+      setImages(acceptedFiles.map(file => Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      })));
+    }
+  })
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => images.forEach(file => URL.revokeObjectURL(file.preview));
+  }, []);
 
   return (
     <form
@@ -122,14 +139,25 @@ export default function RecipeForm({
         </div>
       </div>
 
+      <div className='grid grid-cols-1 tablet:grid-cols-2'>
+        {images.map(image => (
+          <img
+            className=''
+            src={image.preview}
+            onLoad={() => { URL.revokeObjectURL(image.preview) }}
+          />
+        ))}
+      </div>
+
       <div
         className={cn(
-          'min-h-24 flex justify-center items-center text-xl',
+          'py-8 px-4 flex flex-col gap-2 justify-center items-center text-lg',
           'border border-dashed border-neutral-content rounded-xl',
         )}
         {...getRootProps()}
       >
         <input {...getInputProps()} />
+        <p className='text-xl font-semibold'>Cover Photo</p>
         {
           isDragActive ?
             <p>Drop an image here ...</p> :
