@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { cn } from '@acme/ui/util'
 import { Label } from '@acme/ui/components'
 import { Recipe } from '@acme/core'
@@ -8,6 +8,7 @@ import { ApiClient } from 'lib/ApiClient'
 import { MDXEditorMethods } from '@mdxeditor/editor'
 import { queryRecipe } from 'lib/queries/RecipeQueries'
 import EntityManagedTimes from 'components/entity/EntityManagedTimes'
+import { useDropzone } from '@acme/ui/hooks'
 
 const initialInstructions = `
 # Instructions
@@ -46,11 +47,29 @@ export default function RecipeForm({
       }),
     onSuccess: (updated) => {
       setPending(updated)
-      console.debug(`UPDATING`, queryRecipe(updated._id).queryKey, updated)
       queryClient.setQueryData(queryRecipe(updated._id).queryKey, updated)
       rest.onSuccess?.(updated)
     }
   })
+
+  const [images, setImages] = useState<(File & { preview: string })[]>([])
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    maxFiles: 1,
+    accept: {
+      'image/jpeg': [],
+      'image/png': []
+    },
+    onDrop: acceptedFiles => {
+      setImages(acceptedFiles.map(file => Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      })));
+    }
+  })
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => images.forEach(file => URL.revokeObjectURL(file.preview));
+  }, []);
 
   return (
     <form
@@ -118,6 +137,32 @@ export default function RecipeForm({
 
           <EntityManagedTimes className='h-fit w-fit' entity={pending} />
         </div>
+      </div>
+
+      <div className='grid grid-cols-1 tablet:grid-cols-2'>
+        {images.map(image => (
+          <img
+            className=''
+            src={image.preview}
+            onLoad={() => { URL.revokeObjectURL(image.preview) }}
+          />
+        ))}
+      </div>
+
+      <div
+        className={cn(
+          'py-8 px-4 flex flex-col gap-2 justify-center items-center text-lg',
+          'border border-dashed border-neutral-content rounded-xl',
+        )}
+        {...getRootProps()}
+      >
+        <input {...getInputProps()} />
+        <p className='text-xl font-semibold'>Cover Photo</p>
+        {
+          isDragActive ?
+            <p>Drop an image here ...</p> :
+            <p>Drag 'n' drop some files here, or click to select files</p>
+        }
       </div>
 
       {/** TODO: Offer two ways to input this. Simple/quick vs. Markdown */}
