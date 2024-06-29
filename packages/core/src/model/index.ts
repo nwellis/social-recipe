@@ -4,6 +4,7 @@ export * from './Ingredient.js';
 export * from './MeasurementUnit.js';
 export * from './OAuthAccount.js';
 export * from './Organization.js';
+export * from './OrgFileMetadata.js';
 export * from './Recipe.js';
 export * from './RecipeIngredient.js';
 export * from './RecipeSlug.js';

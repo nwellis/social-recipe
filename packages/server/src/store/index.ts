@@ -1,6 +1,7 @@
 export * from './DOS3FileStore.js'
 export * from './OAuthAccountCustomerStore.js'
 export * from './OrganizationStore.js'
+export * from './OrgFileMetadataStore.js'
 export * from './RecipeStore.js'
 export * from './RecipeSlugStore.js'
 export * from './SessionAdminStore.js'
