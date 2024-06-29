@@ -20,7 +20,7 @@ const ChunkNameAndCheck: Record<string, (id: string) => boolean> = {
   // Add a trailing slash to match the folder name exactly
 
   // SRC
-  "game": srcIncludes("game/"),
+  // "local-folder": srcIncludes("local-folder/"),
 
   // NODE_MODULES
   "vendor-lodash": nodeModuleIncludes("lodash"), // so many modules use lodash, so hold onto this just in case
