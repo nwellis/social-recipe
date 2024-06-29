@@ -4,8 +4,12 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Logger } from '../Logger.js';
 import { PresignedUrlOptions } from '@acme/core';
 import { lgm } from '@acme/logger';
+import mem from 'mem';
+import { S3ClientInstance } from '../s3/S3Client.js';
 
 export class DOS3FileStore extends S3FileStoreWithUpload<string> {
+
+  static Instance = mem(() => new DOS3FileStore(S3ClientInstance, "nwellis-recipes"))
 
   static readonly Defaults: {
     MinImageSize: 0,

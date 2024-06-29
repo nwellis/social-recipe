@@ -1,3 +1,4 @@
+export * from './DOS3FileStore.js'
 export * from './OAuthAccountCustomerStore.js'
 export * from './OrganizationStore.js'
 export * from './RecipeStore.js'

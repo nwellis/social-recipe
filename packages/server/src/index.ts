@@ -1,6 +1,7 @@
 export * from './Settings.js'
 
 export * from './store/index.js'
+export * from './s3/index.js'
 
 export * from './domain/auth/index.js'
 export * from './domain/folder/index.js'

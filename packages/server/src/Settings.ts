@@ -19,6 +19,12 @@ export const Settings = {
     Name: process.env.MONGODB_NAME,
   },
 
+  S3: {
+    DoS3Endpoint: process.env.DO_S3_ENDPOINT,
+    DoS3ApiKey: process.env.DO_S3_APIKEY,
+    DoS3ApiSecret: process.env.DO_S3_APISECRET,
+  },
+
   OAuth: {
     GitHub: {
       ClientID: process.env.GITHUB_CLIENT_ID,
