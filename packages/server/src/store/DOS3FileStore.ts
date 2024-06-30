@@ -124,7 +124,7 @@ export class DOS3FileStore extends S3FileStoreWithUpload<string> {
     }
   }
 
-  async set(key: string, data: string) {
+  async create(key: string, data: string) {
     try {
       await this.s3Client.send(new PutObjectCommand({
         Key: key,
@@ -138,7 +138,7 @@ export class DOS3FileStore extends S3FileStoreWithUpload<string> {
     }
   }
 
-  async unset(key: string) {
+  async delete(key: string) {
     if (key.startsWith("static")) {
       Logger.error(lgm(500, "ImageStoreDelete", {
         key,

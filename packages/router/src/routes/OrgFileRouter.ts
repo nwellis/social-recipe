@@ -42,6 +42,7 @@ export const orgFileRouter = t.router({
       const metadata = await OrganizationFileService.Instance().getOrgFileMetadata(opts.input)
       procedureAssert(metadata.orgId === opts.ctx.session.orgId, 'FORBIDDEN')
 
+      await OrganizationFileService.Instance().deleteOrgFile(opts.input)
       return metadata
     }),
 })

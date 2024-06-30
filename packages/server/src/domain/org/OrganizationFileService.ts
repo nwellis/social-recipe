@@ -51,7 +51,8 @@ export class OrganizationFileService {
     return metadata;
   }
 
-  async deleteOrgFileMetadata(id: string) {
+  async deleteOrgFile(id: string) {
+    await this.s3.delete(id)
     return this.file.delete(id)
   }
 }
