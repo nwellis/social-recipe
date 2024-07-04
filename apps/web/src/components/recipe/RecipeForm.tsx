@@ -9,6 +9,7 @@ import { MDXEditorMethods } from '@mdxeditor/editor'
 import { queryRecipe } from 'lib/queries/RecipeQueries'
 import EntityManagedTimes from 'components/entity/EntityManagedTimes'
 import { useDropzone } from '@acme/ui/hooks'
+import { UploadFile } from 'lib/UploadFile'
 
 const initialInstructions = `
 # Instructions
@@ -32,6 +33,7 @@ export default function RecipeForm({
 
   const queryClient = useQueryClient()
   const instructionsRef = useRef<MDXEditorMethods>(null)
+
   const [pending, setPending] = useState<Partial<Recipe>>(current)
   const { mutate: updateRecipe } = useMutation({
     mutationFn: (updates: Partial<Recipe>) => current._id
@@ -52,23 +54,41 @@ export default function RecipeForm({
     }
   })
 
-  const [images, setImages] = useState<(File & { preview: string })[]>([])
+  const { mutate: uploadFile } = useMutation({
+    mutationFn: UploadFile.uploadOrgFile,
+    onSuccess: ([file, metadata]) => {
+      setPending({
+        ...pending,
+        imageIds: [...metadata._id],
+      })
+
+      setImages([file])
+    },
+  })
+
+  const [images, setImages] = useState<UploadFile[]>([])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1,
     accept: {
       'image/jpeg': [],
-      'image/png': []
+      'image/png': [],
     },
-    onDrop: acceptedFiles => {
-      setImages(acceptedFiles.map(file => Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      })));
+    onDrop: ([file]) => {
+      uploadFile(UploadFile.decorateFile(file, {
+        _id: window.crypto.randomUUID(),
+        previewUri: URL.createObjectURL(file),
+        uploading: true,
+        error: undefined,
+      }))
     }
   })
 
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => images.forEach(file => URL.revokeObjectURL(file.preview));
+    return () => images
+      .map(file => file.previewUri)
+      .filter(previewUri => typeof previewUri === "string")
+      .forEach(previewUri => URL.revokeObjectURL(previewUri));
   }, []);
 
   return (
@@ -141,11 +161,13 @@ export default function RecipeForm({
 
       <div className='grid grid-cols-1 tablet:grid-cols-2'>
         {images.map(image => (
-          <img
-            className=''
-            src={image.preview}
-            onLoad={() => { URL.revokeObjectURL(image.preview) }}
-          />
+          <div className='relative'>
+            <img
+              className=''
+              src={image.previewUri}
+              onLoad={() => image.previewUri && URL.revokeObjectURL(image.previewUri)}
+            />
+          </div>
         ))}
       </div>
 

@@ -24,15 +24,12 @@ export const orgFileRouter = t.router({
 
   createOrgFileMetadata: protectedProcedure
     .input(z.object({
-      orgId: z.string(),
       contentType: z.string(),
       byteSize: z.number().min(1),
     }))
     .mutation(async (opts) => {
-      procedureAssert(opts.input.orgId === opts.ctx.session.orgId, 'FORBIDDEN')
-
       const metadata = await OrganizationFileService.Instance()
-        .createOrgFileMetadata({ ...opts.input, orgId: opts.input.orgId })
+        .createOrgFileMetadata({ ...opts.input, orgId: opts.ctx.session.orgId })
       return metadata
     }),
 

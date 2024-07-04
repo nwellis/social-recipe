@@ -55,6 +55,7 @@ export const recipeRouter = t.router({
       return RecipeService.Instance().createRecipe({
         publishedAt: 0,
         orgId: opts.ctx.session.orgId,
+        imageIds: [],
         title: opts.input.title.trim(),
         description: "",
         instructions: opts.input.instructions.trim(),

@@ -50,6 +50,15 @@ export default defineConfig({
         manualChunks: (id) => ManualChunks.find(({ check }) => check(id))?.name,
       }
     },
+  },
+  server: {
+    cors: false,
+    // https://github.com/expressjs/cors#configuration-options
+    // cors: {
+    //   origin: [
+    //     /\.digitaloceanspaces\.com$/
+    //   ]
+    // }
   }
 })
 

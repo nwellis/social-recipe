@@ -6,6 +6,7 @@ export interface Recipe extends ServerEntityManaged {
   searchText: string
 
   orgId: string
+  imageIds: string[]
   title: string
   description: string
   instructions: string
