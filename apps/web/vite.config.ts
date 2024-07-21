@@ -59,6 +59,14 @@ export default defineConfig({
     //     /\.digitaloceanspaces\.com$/
     //   ]
     // }
-  }
+    proxy: {
+      '/s3': {
+        target: 'https://nyc3.digitaloceanspaces.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: path => path.replace(/^\/s3/, '')
+      }
+    },
+  },
 })
 

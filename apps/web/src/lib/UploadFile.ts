@@ -31,7 +31,17 @@ export namespace UploadFile {
       file.uploading = true
 
       metadata = await ApiClient.orgFile.createOrgFileMetadata.mutate({ contentType: file.type, byteSize: file.size })
-      const s3Response = await fetch(metadata.url, {
+
+      let s3ResourceUrl = metadata.url
+      if (import.meta.env.VITE_DO_S3_ENDPOINT) {
+        const original = new URL(metadata.url)
+        s3ResourceUrl = '/' + joinPaths(
+          import.meta.env.VITE_DO_S3_ENDPOINT,
+          [original.pathname, original.search].filter(Boolean).join('')
+        )
+      }
+
+      const s3Response = await fetch(s3ResourceUrl, {
         method: 'PUT',
         headers: {
           'Content-Type': file.type,
