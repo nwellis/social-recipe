@@ -53,16 +53,20 @@ export default defineConfig({
   },
   server: {
     cors: false,
+
     // https://github.com/expressjs/cors#configuration-options
     // cors: {
     //   origin: [
     //     /\.digitaloceanspaces\.com$/
     //   ]
     // }
+
+    // https://github.com/http-party/node-http-proxy#options
     proxy: {
       '/s3': {
-        target: 'https://nyc3.digitaloceanspaces.com',
+        target: 'https://nwellis-recipes.nyc3.digitaloceanspaces.com',
         changeOrigin: true,
+        xfwd: true,
         secure: false,
         rewrite: path => path.replace(/^\/s3/, '')
       }
