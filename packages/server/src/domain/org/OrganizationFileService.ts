@@ -32,7 +32,7 @@ export class OrganizationFileService {
   async createOrgFileMetadata(payload: Omit<OrgFileMetadata, keyof ServerEntityManaged | "url">) {
     const _id = this.createId();
 
-    const { presignedUrl } = await this.s3.createUploadUrl(
+    const { presignedUrl, fileUrl } = await this.s3.createUploadUrl(
       `org/${payload.orgId}/files/${_id}`,
       { acl: 'public-read' },
     )
@@ -43,12 +43,15 @@ export class OrganizationFileService {
       __schema: 1,
       __version: 1,
       createdAt: Date.now(),
-      url: presignedUrl,
+      url: fileUrl,
     }
 
     await this.file.set(metadata._id, metadata);
 
-    return metadata;
+    return {
+      presignedUrl,
+      metadata,
+    };
   }
 
   async deleteOrgFile(id: string) {
