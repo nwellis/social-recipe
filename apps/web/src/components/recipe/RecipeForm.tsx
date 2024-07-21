@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { cn } from '@acme/ui/util'
 import { Label } from '@acme/ui/components'
 import { Recipe } from '@acme/core'
@@ -10,6 +10,7 @@ import { queryRecipe } from 'lib/queries/RecipeQueries'
 import EntityManagedTimes from 'components/entity/EntityManagedTimes'
 import { useDropzone } from '@acme/ui/hooks'
 import { UploadFile } from 'lib/UploadFile'
+import { useOrgFileMetadata } from 'hooks/UseOrgFileMetadata'
 
 const initialInstructions = `
 # Instructions
@@ -54,18 +55,17 @@ export default function RecipeForm({
     }
   })
 
+  const imageMetadata = Object.values(useOrgFileMetadata(pending.imageIds || []))
+
   const { mutate: uploadFile } = useMutation({
     mutationFn: UploadFile.uploadOrgFile,
-    onSuccess: ([file, metadata]) => {
+    onSuccess: ([_file, metadata]) => {
       updateRecipe({
         imageIds: (pending.imageIds ?? []).concat(metadata._id),
       })
-
-      setImages([file])
     },
   })
 
-  const [images, setImages] = useState<UploadFile[]>([])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1,
     accept: {
@@ -81,14 +81,6 @@ export default function RecipeForm({
       }))
     }
   })
-
-  useEffect(() => {
-    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => images
-      .map(file => file.previewUri)
-      .filter(previewUri => typeof previewUri === "string")
-      .forEach(previewUri => URL.revokeObjectURL(previewUri));
-  }, []);
 
   return (
     <form
@@ -158,32 +150,30 @@ export default function RecipeForm({
         </div>
       </div>
 
-      <div className='grid grid-cols-1 tablet:grid-cols-2'>
-        {images.map(image => (
-          <div key={image._id} className='relative'>
+      <div className='grid grid-cols-1 tablet:grid-cols-2 gap-4'>
+        {imageMetadata.map(metadata => (
+          <div key={metadata._id} className='relative'>
             <img
-              className=''
-              src={image.previewUri}
-              onLoad={() => image.previewUri && URL.revokeObjectURL(image.previewUri)}
+              className='rounded-xl'
+              src={metadata.url}
             />
           </div>
         ))}
-      </div>
-
-      <div
-        className={cn(
-          'py-8 px-4 flex flex-col gap-2 justify-center items-center text-lg',
-          'border border-dashed border-neutral-content rounded-xl',
-        )}
-        {...getRootProps()}
-      >
-        <input {...getInputProps()} />
-        <p className='text-xl font-semibold'>Cover Photo</p>
-        {
-          isDragActive ?
-            <p>Drop an image here ...</p> :
-            <p>Drag 'n' drop some files here, or click to select files</p>
-        }
+        <div
+          className={cn(
+            'py-8 px-4 flex flex-col gap-2 justify-center items-center text-lg',
+            'border border-dashed border-neutral-content rounded-xl',
+          )}
+          {...getRootProps()}
+        >
+          <input {...getInputProps()} />
+          <p className='text-xl font-semibold'>Cover Photo</p>
+          {
+            isDragActive ?
+              <p>Drop an image here ...</p> :
+              <p>Drag 'n' drop some files here, or click to select files</p>
+          }
+        </div>
       </div>
 
       {/** TODO: Offer two ways to input this. Simple/quick vs. Markdown */}
