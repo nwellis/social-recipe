@@ -11,7 +11,7 @@ export class MongoEntityStore<TEntity extends ServerEntity> implements DatabaseE
   constructor(
     readonly options: CollectionOptions<TEntity>,
     readonly pageSize = 100,
-    readonly enableContinueFromCursor = false,
+    readonly enableContinueFromCursor = true,
   ) { }
 
   tryParseCursor(cursor = "") {
