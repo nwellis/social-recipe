@@ -51,6 +51,7 @@ function Account() {
           <AddRecipeButton className='h-full text-xl' />
           {recipes.map(recipe => (
             <Link
+              key={recipe._id}
               className='h-full flex flex-col justify-center btn btn-ghost text-lg'
               to='/account/recipe/$recipeId'
               params={{ recipeId: recipe._id }}
