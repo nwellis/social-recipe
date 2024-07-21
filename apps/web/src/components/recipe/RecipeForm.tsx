@@ -57,9 +57,8 @@ export default function RecipeForm({
   const { mutate: uploadFile } = useMutation({
     mutationFn: UploadFile.uploadOrgFile,
     onSuccess: ([file, metadata]) => {
-      setPending({
-        ...pending,
-        imageIds: [...metadata._id],
+      updateRecipe({
+        imageIds: (pending.imageIds ?? []).concat(metadata._id),
       })
 
       setImages([file])
@@ -161,7 +160,7 @@ export default function RecipeForm({
 
       <div className='grid grid-cols-1 tablet:grid-cols-2'>
         {images.map(image => (
-          <div className='relative'>
+          <div key={image._id} className='relative'>
             <img
               className=''
               src={image.previewUri}

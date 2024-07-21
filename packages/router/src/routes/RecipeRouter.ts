@@ -11,6 +11,7 @@ const ResourceSchema = z.object({
     .max(100, 'Title must be less that 100 characters'),
   instructions: z.string().min(1, 'Please provide instructions'),
   publishedAt: z.number().min(0).optional(),
+  imageIds: z.array(z.string()).optional(),
 })
 
 export const recipeRouter = t.router({
