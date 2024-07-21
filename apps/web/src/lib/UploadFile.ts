@@ -1,6 +1,6 @@
 import { InternalDomainError, OrgFileMetadata } from '@acme/core'
 import { ApiClient } from './ApiClient'
-import { tuple } from '@acme/util'
+import { joinPaths, tuple } from '@acme/util'
 
 export interface UploadFile extends File {
   _id: string
